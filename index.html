@@ -27,297 +27,476 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --teal: oklch(0.47 0.09 194);          /* #006666 brand */
-    --teal-deep: oklch(0.38 0.075 196);
-    --teal-bright: oklch(0.80 0.115 185);
-    --teal-dim: oklch(0.62 0.09 190);
-    --bg: oklch(0.16 0.012 210);
-    --bg-raised: oklch(0.20 0.016 205);
-    --bg-sunken: oklch(0.135 0.012 210);
-    --border: oklch(0.30 0.02 200);
-    --border-faint: oklch(0.24 0.016 205);
-    --text: oklch(0.93 0.008 190);
-    --text-muted: oklch(0.68 0.02 195);
-    --text-faint: oklch(0.52 0.02 198);
-    --mono: "JetBrains Mono", ui-monospace, monospace;
-    --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+    --brand-teal: #006666; 
+    --brand-teal-glow: color-mix(in srgb, var(--brand-teal) 40%, transparent);
+    
+    --teal-bright: oklch(0.75 0.15 185);
+    --teal-muted: oklch(0.55 0.08 190);
+    
+    --bg-base: oklch(0.12 0.01 210);
+    --bg-surface: oklch(0.16 0.015 205);
+    --bg-surface-raised: oklch(0.20 0.02 200);
+    --bg-surface-hover: oklch(0.22 0.02 195);
+    
+    --border-faint: oklch(0.20 0.01 205);
+    --border-subtle: oklch(0.26 0.015 200);
+    --border-strong: oklch(0.35 0.03 200);
+    --border-teal: color-mix(in srgb, var(--brand-teal) 60%, transparent);
+    
+    --text-primary: oklch(0.96 0.005 190);
+    --text-secondary: oklch(0.72 0.015 195);
+    --text-tertiary: oklch(0.55 0.02 198);
+    
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --sans: "Archivo", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    
+    --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
+  
+  html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 5.5rem; }
+  
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: "Archivo", system-ui, sans-serif;
-    font-size: 1.0625rem;
-    line-height: 1.65;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--sans);
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
-  ::selection { background: var(--teal); color: oklch(0.95 0.01 190); }
+  ::selection { background: var(--brand-teal); color: #fff; }
 
-  a { color: var(--teal-bright); text-decoration: none; }
-  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  a { color: var(--teal-bright); text-decoration: none; transition: color 0.2s ease; }
+  a:hover { color: #fff; }
 
-  .wrap { max-width: 72rem; margin-inline: auto; padding-inline: clamp(1.25rem, 4vw, 2.5rem); }
+  .wrap { max-width: 76rem; margin-inline: auto; padding-inline: clamp(1.5rem, 5vw, 3rem); }
 
   /* ---------- Nav ---------- */
   header {
-    border-bottom: 1px solid var(--border-faint);
-    position: sticky; top: 0; z-index: 10;
-    background: color-mix(in oklch, var(--bg) 88%, transparent);
-    backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg-base) 75%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-subtle);
   }
   .nav {
     display: flex; align-items: center; gap: 2rem;
-    height: 4rem;
+    height: 4.5rem;
   }
   .brand {
-    display: flex; align-items: center; gap: 0.6rem;
-    font-weight: 700; font-size: 1.2rem; letter-spacing: -0.02em;
-    color: var(--text);
+    display: flex; align-items: center; gap: 0.75rem;
+    font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em;
+    color: var(--text-primary);
   }
   .brand svg { display: block; }
-  .brand:hover { text-decoration: none; }
   .nav-links {
-    display: flex; gap: 1.75rem; margin-left: auto;
+    display: flex; gap: 2rem; margin-left: auto; align-items: center;
     font-size: 0.95rem; font-weight: 500;
   }
-  .nav-links a { color: var(--text-muted); }
-  .nav-links a:hover { color: var(--text); text-decoration: none; }
+  .nav-links a { color: var(--text-secondary); }
+  .nav-links a:hover { color: var(--text-primary); }
   .nav-gh {
-    display: inline-flex; align-items: center; gap: 0.45rem;
-    border: 1px solid var(--border); border-radius: 6px;
-    padding: 0.4rem 0.85rem;
-    color: var(--text) !important; font-weight: 600;
-    transition: border-color 0.2s var(--ease-out), background 0.2s var(--ease-out);
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    border: 1px solid var(--border-strong); border-radius: 6px;
+    padding: 0.4rem 0.9rem;
+    color: var(--text-primary) !important; font-weight: 600;
+    transition: all 0.2s var(--ease-smooth);
+    background: var(--bg-surface);
   }
-  .nav-gh:hover { border-color: var(--teal-dim); background: var(--bg-raised); }
+  .nav-gh:hover { 
+    border-color: var(--teal-muted); 
+    background: var(--bg-surface-hover); 
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
 
   /* ---------- Hero ---------- */
-  .hero {
-    display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: center;
-    padding-block: clamp(4rem, 9vw, 7.5rem);
+  .hero-wrapper {
+    position: relative;
+    overflow: hidden;
   }
+  .hero-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.85;
+  }
+  .hero-glow {
+    position: absolute;
+    top: 10%; left: 50%;
+    width: 60vw; height: 60vw;
+    background: radial-gradient(circle, var(--brand-teal-glow) 0%, transparent 60%);
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+    filter: blur(80px);
+  }
+  .hero {
+    position: relative; z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: clamp(3rem, 6vw, 5rem);
+    align-items: center;
+    padding-block: clamp(5rem, 10vw, 8rem);
+  }
+  .hero-content { max-width: 38rem; }
   .hero h1 {
-    font-size: clamp(2.5rem, 5.6vw, 4.15rem);
-    line-height: 1.04;
+    font-size: clamp(2.75rem, 5vw, 4.5rem);
+    line-height: 1.05;
     font-weight: 800;
     letter-spacing: -0.03em;
     text-wrap: balance;
   }
-  .hero h1 .accent { color: var(--teal-bright); }
+  .hero h1 .accent { 
+    color: var(--teal-bright);
+    background: linear-gradient(to right, #2dd4bf, var(--brand-teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
   .hero p.lede {
-    margin-top: 1.5rem;
-    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
-    color: var(--text-muted);
-    max-width: 34rem;
+    margin-top: 1.75rem;
+    font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+    color: var(--text-secondary);
+    line-height: 1.7;
     text-wrap: pretty;
   }
   .hero-actions {
-    margin-top: 2.25rem;
-    display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: center;
+    margin-top: 2.5rem;
+    display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
   }
   .btn {
-    display: inline-flex; align-items: center; gap: 0.55rem;
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
     font-weight: 600; font-size: 1rem;
-    padding: 0.75rem 1.4rem; border-radius: 7px;
-    transition: transform 0.2s var(--ease-out), background 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+    padding: 0.85rem 1.5rem; border-radius: 6px;
+    transition: all 0.2s var(--ease-smooth);
+    cursor: pointer;
   }
-  .btn:hover { text-decoration: none; transform: translateY(-1px); }
-  .btn-primary { background: var(--teal); color: oklch(0.96 0.01 190); }
-  .btn-primary:hover { background: oklch(0.52 0.095 192); }
-  .btn-ghost { border: 1px solid var(--border); color: var(--text); }
-  .btn-ghost:hover { border-color: var(--teal-dim); background: var(--bg-raised); }
+  .btn-primary { 
+    background: var(--brand-teal); color: #fff;
+    border: 1px solid oklch(0.55 0.1 190);
+    box-shadow: 0 0 20px color-mix(in srgb, var(--brand-teal) 40%, transparent);
+  }
+  .btn-primary:hover { 
+    background: oklch(0.52 0.09 194); 
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 24px color-mix(in srgb, var(--brand-teal) 60%, transparent);
+  }
+  .btn-ghost { 
+    background: var(--bg-surface);
+    border: 1px solid var(--border-strong); color: var(--text-primary); 
+  }
+  .btn-ghost:hover { 
+    border-color: var(--teal-muted); background: var(--bg-surface-raised); 
+    transform: translateY(-2px);
+    color: #fff;
+  }
+  
+  .hero-cmd-wrap {
+    margin-top: 3rem;
+  }
   .hero-cmd {
-    margin-top: 2rem;
-    display: inline-flex; align-items: center; gap: 0.8rem;
-    font-family: var(--mono); font-size: 0.88rem;
-    background: var(--bg-sunken);
-    border: 1px solid var(--border-faint);
-    border-radius: 7px;
-    padding: 0.7rem 1.05rem;
-    color: var(--text-muted);
+    display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+    font-family: var(--mono); font-size: 0.9rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    color: var(--text-secondary);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
   }
-  .hero-cmd .prompt { color: var(--teal-bright); user-select: none; }
+  .hero-cmd::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+  }
+  .hero-cmd .prompt { color: var(--teal-bright); user-select: none; font-weight: 600; }
   .hero-meta {
-    margin-top: 1.1rem;
-    font-size: 0.85rem; color: var(--text-faint);
+    margin-top: 1.25rem;
+    font-family: var(--mono);
+    font-size: 0.8rem; color: var(--text-tertiary);
+    text-transform: uppercase; letter-spacing: 0.05em;
   }
-  .hero-meta span + span::before { content: "·"; margin-inline: 0.6rem; color: var(--border); }
+  .hero-meta span + span::before { content: "·"; margin-inline: 0.75rem; color: var(--border-strong); }
 
-  .hero-fig { min-width: 0; }
-  .hero-fig svg { width: 100%; height: auto; display: block; }
+  .hero-fig { min-width: 0; position: relative; }
+  .hero-fig svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4)); }
   .hero-fig figcaption {
-    margin-top: 0.9rem; text-align: center;
-    font-size: 0.82rem; color: var(--text-faint);
+    margin-top: 1.5rem; text-align: center;
+    font-size: 0.85rem; color: var(--text-tertiary);
     font-family: var(--mono);
   }
 
-  @keyframes flow { to { stroke-dashoffset: -14; } }
+  /* SVG Animations */
+  @keyframes flow { to { stroke-dashoffset: -20; } }
   .link-line {
-    stroke: var(--teal-dim); stroke-width: 1.5;
-    stroke-dasharray: 3 11; stroke-linecap: round;
-    animation: flow 1.6s linear infinite;
-    opacity: 0.85;
+    stroke: var(--teal-bright); stroke-width: 2;
+    stroke-dasharray: 4 16; stroke-linecap: round;
+    animation: flow 1.2s linear infinite;
+    opacity: 0.9;
   }
-  .link-base { stroke: var(--border); stroke-width: 1.5; }
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(14px); }
-    to { opacity: 1; transform: none; }
+  .link-base { stroke: var(--border-strong); stroke-width: 1.5; }
+  
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-  .hero > * { animation: rise 0.7s var(--ease-out) backwards; }
-  .hero-fig { animation-delay: 0.15s; }
+  .hero-content > * { animation: fadeUp 0.8s var(--ease-smooth) backwards; }
+  .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero-fig { animation: fadeUp 1s var(--ease-smooth) 0.3s backwards; }
 
   /* ---------- Section scaffolding ---------- */
-  section { padding-block: clamp(3.5rem, 7vw, 6rem); }
-  section + section { border-top: 1px solid var(--border-faint); }
-  .sec-head { max-width: 44rem; }
+  section { padding-block: clamp(4rem, 8vw, 7rem); position: relative; }
+  section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+  }
+  .sec-head { max-width: 48rem; margin-inline: auto; text-align: center; }
   .sec-head h2 {
-    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
-    font-weight: 700; letter-spacing: -0.02em; line-height: 1.12;
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+    font-weight: 700; letter-spacing: -0.02em; line-height: 1.15;
     text-wrap: balance;
   }
-  .sec-head p { margin-top: 1rem; color: var(--text-muted); text-wrap: pretty; }
+  .sec-head p { 
+    margin-top: 1.25rem; color: var(--text-secondary); text-wrap: pretty;
+    font-size: 1.1rem; max-width: 42rem; margin-inline: auto;
+  }
 
-  /* ---------- Features (numbered rows) ---------- */
-  .feat-rows { margin-top: 3rem; display: grid; }
-  .feat {
-    display: grid;
-    grid-template-columns: 4.5rem minmax(0, 22rem) minmax(0, 1fr);
-    gap: 1.5rem 2.5rem;
-    padding-block: 1.9rem;
-    border-top: 1px solid var(--border-faint);
-    align-items: baseline;
+  /* ---------- Features (Cards) ---------- */
+  .feat-grid { 
+    margin-top: 4rem; 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    gap: 1.5rem; 
   }
-  .feat:last-child { border-bottom: 1px solid var(--border-faint); }
-  .feat .num {
-    font-family: var(--mono); font-size: 0.9rem;
+  .feat-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 2.25rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s var(--ease-smooth);
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .feat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--brand-teal), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .feat-card:hover {
+    background: var(--bg-surface-hover);
+    border-color: var(--border-strong);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  }
+  .feat-card:hover::before { opacity: 1; }
+  .feat-card .num {
+    font-family: var(--mono); font-size: 0.85rem; font-weight: 600;
     color: var(--teal-bright);
+    background: color-mix(in srgb, var(--brand-teal) 20%, transparent);
+    padding: 0.3rem 0.6rem; border-radius: 4px;
+    align-self: flex-start;
   }
-  .feat h3 { font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
-  .feat p { color: var(--text-muted); font-size: 1rem; }
+  .feat-card h3 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); }
+  .feat-card p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.6; }
 
   /* ---------- Hardware spec table ---------- */
-  .spec-wrap { margin-top: 3rem; overflow-x: auto; }
+  .deploy-wrap { margin-top: 4rem; }
+  .spec-container {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    overflow-x: auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  }
   table.spec {
     width: 100%; border-collapse: collapse;
-    font-size: 0.98rem;
+    font-size: 1rem;
   }
   .spec th, .spec td {
-    text-align: left; padding: 1.05rem 1.25rem;
-    border: 1px solid var(--border-faint);
-    vertical-align: top;
+    text-align: left; padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-faint);
   }
+  .spec tr:last-child td { border-bottom: none; }
   .spec thead th {
-    font-family: var(--mono); font-size: 0.78rem; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.07em;
-    color: var(--text-faint);
-    background: var(--bg-sunken);
+    font-family: var(--mono); font-size: 0.8rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    background: var(--bg-surface-raised);
+    border-bottom: 1px solid var(--border-subtle);
   }
-  .spec td.role { font-weight: 700; white-space: nowrap; }
-  .spec td .sub { display: block; font-size: 0.85rem; color: var(--text-faint); font-weight: 400; margin-top: 0.15rem; }
-  .spec td.mono { font-family: var(--mono); font-size: 0.88rem; color: var(--text-muted); white-space: nowrap; }
-  .spec td.ex { color: var(--text-muted); }
-  .hw-note { margin-top: 1.4rem; color: var(--text-faint); font-size: 0.92rem; max-width: 46rem; }
-  .hw-note code { font-family: var(--mono); font-size: 0.85em; color: var(--text-muted); }
+  .spec tbody tr { transition: background 0.2s ease; }
+  .spec tbody tr:hover { background: color-mix(in srgb, var(--bg-surface-hover) 50%, transparent); }
+  .spec td.role { font-weight: 700; white-space: nowrap; color: var(--text-primary); }
+  .spec td .sub { display: block; font-family: var(--mono); font-size: 0.8rem; color: var(--teal-bright); font-weight: 400; margin-top: 0.25rem; }
+  .spec td.mono { font-family: var(--mono); font-size: 0.9rem; color: var(--text-secondary); white-space: nowrap; }
+  .spec td.ex { color: var(--text-secondary); line-height: 1.5; font-size: 0.95rem; }
+  .hw-note { 
+    margin-top: 2rem; color: var(--text-tertiary); font-size: 0.95rem; max-width: 48rem; margin-inline: auto; text-align: center;
+    background: var(--bg-surface); padding: 1rem 1.5rem; border-radius: 8px; border: 1px solid var(--border-faint);
+  }
+  .hw-note code { font-family: var(--mono); font-size: 0.9em; color: var(--text-secondary); background: var(--bg-base); padding: 0.1rem 0.3rem; border-radius: 3px; }
 
-  /* ---------- Quickstart (teal drench) ---------- */
+  /* ---------- Quickstart (Teal Drench) ---------- */
   .drench {
-    background: var(--teal-deep);
-    border-top: 1px solid oklch(0.45 0.08 194);
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    position: relative;
+    overflow: hidden;
+  }
+  .drench::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at center, color-mix(in srgb, var(--brand-teal) 15%, transparent) 0%, transparent 100%);
+    pointer-events: none;
   }
   .drench section { border: none; }
-  .drench .sec-head h2 { color: oklch(0.97 0.01 190); }
-  .drench .sec-head p { color: oklch(0.85 0.04 190); }
   .steps {
-    margin-top: 3rem;
-    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem;
+    margin-top: 4rem;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 2rem;
   }
-  .step { min-width: 0; }
+  .step { 
+    min-width: 0; 
+    background: var(--bg-base);
+    border: 1px solid var(--border-faint);
+    border-radius: 12px;
+    padding: 1.75rem;
+    position: relative;
+  }
+  .step::after {
+    content: ''; position: absolute; top: -1px; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-teal), transparent);
+  }
   .step .step-label {
-    font-family: var(--mono); font-size: 0.8rem;
-    color: oklch(0.88 0.06 188);
-    display: block; margin-bottom: 0.7rem;
+    font-family: var(--mono); font-size: 0.8rem; font-weight: 600;
+    color: var(--teal-bright);
+    display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;
+    text-transform: uppercase; letter-spacing: 0.05em;
   }
-  .step h3 { font-size: 1.05rem; font-weight: 600; color: oklch(0.97 0.01 190); margin-bottom: 0.9rem; }
+  .step h3 { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1.25rem; }
+  .code-block { position: relative; }
+  .copy-btn {
+    position: absolute; top: 0.5rem; right: 0.5rem;
+    background: var(--bg-surface-raised); border: 1px solid var(--border-strong);
+    color: var(--text-secondary); border-radius: 6px; padding: 0.4rem; cursor: pointer;
+    opacity: 0; transition: all 0.2s var(--ease-smooth); display: flex; align-items: center; justify-content: center;
+  }
+  .code-block:hover .copy-btn, .hero-cmd:hover .copy-btn { opacity: 1; }
+  .copy-btn:hover { background: var(--teal-muted); color: #fff; transform: translateY(-1px); }
+  .copy-btn.copied { background: #34d399; color: #000; border-color: #34d399; }
+  .hero-cmd .hero-cmd-lines { display: flex; flex-direction: column; gap: 0.2rem; }
+  .hero-cmd .copy-btn { position: static; opacity: 0; margin: -0.25rem -0.25rem -0.25rem 0; }
   .step pre {
-    background: var(--bg-sunken);
-    border: 1px solid oklch(0.32 0.05 198);
+    background: #09090b; /* Very dark for terminal */
+    border: 1px solid var(--border-subtle);
     border-radius: 8px;
-    padding: 1rem 1.1rem;
-    font-family: var(--mono); font-size: 0.82rem; line-height: 1.7;
-    color: var(--text-muted);
+    padding: 1.25rem;
+    font-family: var(--mono); font-size: 0.85rem; line-height: 1.7;
+    color: var(--text-secondary);
     overflow-x: auto;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
   }
-  .step pre .c { color: var(--text-faint); }
-  .step pre .p { color: var(--teal-bright); user-select: none; }
-  .step pre .ok { color: oklch(0.82 0.14 160); }
-  .drench-foot { margin-top: 2.5rem; color: oklch(0.85 0.04 190); font-size: 0.95rem; }
-  .drench-foot a { color: oklch(0.95 0.02 190); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .step pre .c { color: var(--text-tertiary); }
+  .step pre .p { color: var(--teal-bright); user-select: none; font-weight: 600; }
+  .step pre .ok { color: #34d399; }
+  .drench-foot { margin-top: 3rem; color: var(--text-secondary); font-size: 1rem; text-align: center; }
+  .drench-foot a { color: var(--text-primary); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+  .drench-foot a:hover { color: var(--teal-bright); }
 
   /* ---------- Open source ---------- */
   .oss {
-    display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    gap: clamp(2rem, 5vw, 5rem); align-items: start;
+    display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: clamp(3rem, 6vw, 6rem); align-items: center;
   }
-  .oss-facts { display: grid; gap: 0; border-top: 1px solid var(--border-faint); }
+  .oss-content .sec-head { text-align: left; margin: 0; }
+  .oss-facts { 
+    display: grid; gap: 0; 
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  }
   .oss-fact {
-    display: flex; justify-content: space-between; gap: 1.5rem;
-    padding-block: 1rem;
+    display: flex; justify-content: space-between; align-items: center; gap: 1.5rem;
+    padding-block: 1.25rem;
     border-bottom: 1px solid var(--border-faint);
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
-  .oss-fact dt { color: var(--text-faint); }
-  .oss-fact dd { font-family: var(--mono); font-size: 0.87rem; color: var(--text); text-align: right; }
+  .oss-fact:last-child { border-bottom: none; }
+  .oss-fact dt { color: var(--text-secondary); font-weight: 500; }
+  .oss-fact dd { font-family: var(--mono); font-size: 0.9rem; color: var(--text-primary); text-align: right; }
 
   /* ---------- Authorized-use note ---------- */
   .notice {
-    margin-top: 2.5rem;
-    display: flex; gap: 0.85rem; align-items: flex-start;
-    background: var(--bg-sunken);
-    border: 1px solid var(--border-faint);
+    margin-top: 3rem;
+    display: flex; gap: 1rem; align-items: flex-start;
+    background: color-mix(in srgb, var(--brand-teal) 5%, var(--bg-surface));
+    border: 1px solid var(--border-teal);
     border-radius: 8px;
-    padding: 1.1rem 1.25rem;
-    font-size: 0.92rem; color: var(--text-muted);
-    max-width: 46rem;
+    padding: 1.25rem 1.5rem;
+    font-size: 0.95rem; color: var(--text-secondary);
+    max-width: 48rem;
+    line-height: 1.6;
   }
-  .notice svg { flex: none; margin-top: 0.15rem; }
-  .notice strong { color: var(--text); font-weight: 600; }
+  .notice svg { flex: none; margin-top: 0.1rem; }
+  .notice strong { color: var(--text-primary); font-weight: 600; }
 
   /* ---------- Footer ---------- */
   footer {
-    border-top: 1px solid var(--border-faint);
-    padding-block: 2.5rem;
-    font-size: 0.9rem; color: var(--text-faint);
+    border-top: 1px solid var(--border-subtle);
+    padding-block: 3rem;
+    font-size: 0.95rem; color: var(--text-tertiary);
+    background: var(--bg-base);
   }
-  .foot { display: flex; flex-wrap: wrap; gap: 1rem 2.5rem; align-items: center; }
-  .foot .brand { font-size: 1.05rem; }
-  .foot-links { display: flex; gap: 1.75rem; margin-left: auto; }
-  .foot-links a { color: var(--text-muted); }
-  .foot-legal { flex-basis: 100%; color: var(--text-faint); font-size: 0.82rem; margin-top: 0.4rem; }
+  .foot { display: flex; flex-wrap: wrap; gap: 1.5rem 3rem; align-items: center; }
+  .foot .brand { font-size: 1.1rem; }
+  .foot-links { display: flex; gap: 2rem; margin-left: auto; }
+  .foot-links a { color: var(--text-secondary); font-weight: 500; }
+  .foot-links a:hover { color: var(--text-primary); }
+  .foot-legal { flex-basis: 100%; color: var(--text-tertiary); font-size: 0.85rem; margin-top: 1rem; border-top: 1px solid var(--border-faint); padding-top: 1.5rem; }
 
   /* ---------- Responsive ---------- */
-  @media (max-width: 56rem) {
-    .hero { grid-template-columns: 1fr; }
-    .hero-fig { max-width: 30rem; }
-    .feat { grid-template-columns: 3rem minmax(0, 1fr); }
-    .feat p { grid-column: 2; }
-    .steps { grid-template-columns: 1fr; }
+  @media (max-width: 64rem) {
+    .hero { grid-template-columns: 1fr; text-align: center; }
+    .hero-content { margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
+    .hero p.lede { margin-inline: auto; }
+    .hero-actions { justify-content: center; }
+    .hero-fig { max-width: 32rem; margin: 0 auto; }
+    
     .oss { grid-template-columns: 1fr; }
-    .nav-links a:not(.nav-gh) { display: none; }
+    .oss-content .sec-head { text-align: center; }
+    .oss-content .hero-actions { justify-content: center; }
+    .notice { margin-inline: auto; text-align: left; }
+    
+    .nav-links { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .link-line { animation: none; stroke-dasharray: none; }
-    .hero > * { animation: none; }
+    .hero-content > *, .hero-fig { animation: none; }
     html { scroll-behavior: auto; }
+    .feat-card:hover { transform: none; }
   }
 </style>
 </head>
@@ -327,7 +506,7 @@
   <nav class="nav wrap" aria-label="Main">
     <a class="brand" href="#" aria-label="Vulna home">
       <!-- Vulna shield mark -->
-      <svg width="30" height="28" viewBox="0 0 142 134" fill="none" aria-hidden="true">
+      <svg width="26" height="24" viewBox="0 0 142 134" fill="none" aria-hidden="true">
         <rect x="0"  y="52" width="9"  height="9" fill="#006666"/>
         <rect x="14" y="38" width="7"  height="7" fill="#00A3A3"/>
         <rect x="10" y="66" width="12" height="8" fill="#013B3B"/>
@@ -364,87 +543,105 @@
 </header>
 
 <main>
-
   <!-- ================= Hero ================= -->
-  <div class="hero wrap">
-    <div>
-      <h1>One dashboard runs the assessment. <span class="accent">The scouts run wherever your assets live.</span></h1>
-      <p class="lede">Vulna is a self-hosted, distributed security-assessment platform. A central dashboard coordinates a fleet of lightweight scout probes across your sites and network segments, driving the scanners you already trust. No cloud account, no license key, no findings leaving your network.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="https://github.com/codebooker/vulna">
-          <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-          View on GitHub
-        </a>
-        <a class="btn btn-ghost" href="#quickstart">Quickstart</a>
+  <div class="hero-wrapper">
+    <canvas id="hero-canvas" class="hero-canvas"></canvas>
+    <div class="hero-glow"></div>
+    <div class="hero wrap">
+      <div class="hero-content">
+        <h1>One dashboard runs the assessment. <span class="accent">The scouts run wherever your assets live.</span></h1>
+        <p class="lede">Vulna is a self-hosted, distributed security-assessment platform. A central dashboard coordinates a fleet of lightweight scout probes across your sites and network segments, driving the scanners you already trust. No cloud account, no license key, no findings leaving your network.</p>
+        
+        <div class="hero-cmd-wrap">
+          <div class="hero-cmd" role="img" aria-label="Terminal command: curl -fsSLO vulna.dev/install.sh, then sh install.sh -- install">
+            <div class="hero-cmd-lines">
+              <div><span class="prompt">~</span> curl -fsSLO vulna.dev/install.sh</div>
+              <div><span class="prompt">~</span> sh install.sh -- install</div>
+            </div>
+            <button class="copy-btn" data-copy="curl -fsSLO vulna.dev/install.sh&#10;sh install.sh -- install" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://github.com/codebooker/vulna">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+            View on GitHub
+          </a>
+          <a class="btn btn-ghost" href="#quickstart">Quickstart</a>
+        </div>
+        
+        <p class="hero-meta">
+          <span>AGPL-3.0</span><span>mTLS-secured</span><span>ARM &amp; x86</span>
+        </p>
       </div>
-      <div class="hero-cmd" role="img" aria-label="Terminal command: sh install.sh, then vulna install">
-        <span class="prompt">$</span> sh install.sh -- install
-      </div>
-      <p class="hero-meta">
-        <span>AGPL-3.0</span><span>mTLS-secured scouts</span><span>ARM &amp; x86</span>
-      </p>
+
+      <figure class="hero-fig">
+        <!-- Topology: dashboard hub, scout probes across segments -->
+        <svg viewBox="0 0 420 380" role="img" aria-label="Network diagram: a central Vulna dashboard connected to scout probes deployed in the office LAN, a DMZ, a second site, and a cloud VPC">
+          <defs>
+            <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#006666" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#006666" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.4"/>
+            </filter>
+          </defs>
+
+          <!-- glow behind hub -->
+          <circle cx="210" cy="190" r="140" fill="url(#hubGlow)"/>
+
+          <!-- links -->
+          <g>
+            <line class="link-base" x1="210" y1="190" x2="80"  y2="60"/>
+            <line class="link-line" x1="210" y1="190" x2="80"  y2="60"/>
+            
+            <line class="link-base" x1="210" y1="190" x2="345" y2="70"/>
+            <line class="link-line" x1="210" y1="190" x2="345" y2="70"/>
+            
+            <line class="link-base" x1="210" y1="190" x2="70"  y2="315"/>
+            <line class="link-line" x1="210" y1="190" x2="70"  y2="315"/>
+            
+            <line class="link-base" x1="210" y1="190" x2="350" y2="320"/>
+            <line class="link-line" x1="210" y1="190" x2="350" y2="320"/>
+          </g>
+
+          <!-- hub dashboard -->
+          <g filter="url(#shadow)">
+            <rect x="140" y="150" width="140" height="80" rx="12" fill="oklch(0.18 0.02 205)" stroke="#008080" stroke-width="1.5"/>
+            <circle cx="160" cy="170" r="4" fill="#2dd4bf"/>
+            <rect x="156" y="196" width="108" height="6" rx="3" fill="oklch(0.3 0.03 200)"/>
+            <rect x="156" y="210" width="70" height="6" rx="3" fill="oklch(0.3 0.03 200)"/>
+            <text x="176" y="174" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#fff">dashboard</text>
+          </g>
+
+          <!-- scouts -->
+          <g font-family="JetBrains Mono, monospace" font-size="11" font-weight="600" fill="oklch(0.8 0.02 195)">
+            <g filter="url(#shadow)">
+              <circle cx="80" cy="60" r="28" fill="oklch(0.15 0.02 205)" stroke="#006666" stroke-width="2"/>
+              <circle cx="80" cy="50" r="3.5" fill="#2dd4bf"/>
+              <text x="80" y="72" text-anchor="middle">office</text>
+            </g>
+            <g filter="url(#shadow)">
+              <circle cx="345" cy="70" r="28" fill="oklch(0.15 0.02 205)" stroke="#006666" stroke-width="2"/>
+              <circle cx="345" cy="60" r="3.5" fill="#2dd4bf"/>
+              <text x="345" y="82" text-anchor="middle">dmz</text>
+            </g>
+            <g filter="url(#shadow)">
+              <circle cx="70" cy="315" r="28" fill="oklch(0.15 0.02 205)" stroke="#006666" stroke-width="2"/>
+              <circle cx="70" cy="305" r="3.5" fill="#2dd4bf"/>
+              <text x="70" y="327" text-anchor="middle">site-b</text>
+            </g>
+            <g filter="url(#shadow)">
+              <circle cx="350" cy="320" r="28" fill="oklch(0.15 0.02 205)" stroke="#006666" stroke-width="2"/>
+              <circle cx="350" cy="310" r="3.5" fill="#2dd4bf"/>
+              <text x="350" y="332" text-anchor="middle">cloud</text>
+            </g>
+          </g>
+        </svg>
+        <figcaption>1 dashboard · n scouts · 0 cloud dependencies</figcaption>
+      </figure>
     </div>
-
-    <figure class="hero-fig">
-      <!-- Topology: dashboard hub, scout probes across segments -->
-      <svg viewBox="0 0 420 380" role="img" aria-label="Network diagram: a central Vulna dashboard connected to scout probes deployed in the office LAN, a DMZ, a second site, and a cloud VPC">
-        <defs>
-          <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#006666" stop-opacity="0.35"/>
-            <stop offset="100%" stop-color="#006666" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-
-        <!-- glow behind hub -->
-        <circle cx="210" cy="190" r="130" fill="url(#hubGlow)"/>
-
-        <!-- links -->
-        <g>
-          <line class="link-base" x1="210" y1="190" x2="80"  y2="60"/>
-          <line class="link-line" x1="210" y1="190" x2="80"  y2="60"/>
-          <line class="link-base" x1="210" y1="190" x2="345" y2="70"/>
-          <line class="link-line" x1="210" y1="190" x2="345" y2="70"/>
-          <line class="link-base" x1="210" y1="190" x2="70"  y2="315"/>
-          <line class="link-line" x1="210" y1="190" x2="70"  y2="315"/>
-          <line class="link-base" x1="210" y1="190" x2="350" y2="320"/>
-          <line class="link-line" x1="210" y1="190" x2="350" y2="320"/>
-        </g>
-
-        <!-- hub dashboard -->
-        <g>
-          <rect x="150" y="158" width="120" height="64" rx="10" fill="oklch(0.22 0.03 200)" stroke="#0d9488" stroke-width="1.5"/>
-          <circle cx="166" cy="174" r="3" fill="#2dd4bf"/>
-          <rect x="162" y="196" width="96" height="4" rx="2" fill="oklch(0.32 0.04 198)"/>
-          <rect x="162" y="206" width="64" height="4" rx="2" fill="oklch(0.32 0.04 198)"/>
-          <text x="180" y="179" font-family="JetBrains Mono, monospace" font-size="11" fill="oklch(0.9 0.02 190)">dashboard</text>
-        </g>
-
-        <!-- scouts -->
-        <g font-family="JetBrains Mono, monospace" font-size="10.5" fill="oklch(0.68 0.02 195)">
-          <g>
-            <circle cx="80" cy="60" r="26" fill="oklch(0.19 0.02 205)" stroke="oklch(0.42 0.06 194)" stroke-width="1.3"/>
-            <circle cx="80" cy="52" r="3" fill="#2dd4bf"/>
-            <text x="80" y="70" text-anchor="middle">office</text>
-          </g>
-          <g>
-            <circle cx="345" cy="70" r="26" fill="oklch(0.19 0.02 205)" stroke="oklch(0.42 0.06 194)" stroke-width="1.3"/>
-            <circle cx="345" cy="62" r="3" fill="#2dd4bf"/>
-            <text x="345" y="80" text-anchor="middle">dmz</text>
-          </g>
-          <g>
-            <circle cx="70" cy="315" r="26" fill="oklch(0.19 0.02 205)" stroke="oklch(0.42 0.06 194)" stroke-width="1.3"/>
-            <circle cx="70" cy="307" r="3" fill="#2dd4bf"/>
-            <text x="70" y="325" text-anchor="middle">site-b</text>
-          </g>
-          <g>
-            <circle cx="350" cy="320" r="26" fill="oklch(0.19 0.02 205)" stroke="oklch(0.42 0.06 194)" stroke-width="1.3"/>
-            <circle cx="350" cy="312" r="3" fill="#2dd4bf"/>
-            <text x="350" y="330" text-anchor="middle">cloud</text>
-          </g>
-        </g>
-      </svg>
-      <figcaption>1 dashboard · n scouts · 0 cloud dependencies</figcaption>
-    </figure>
   </div>
 
   <!-- ================= Features ================= -->
@@ -454,33 +651,34 @@
         <h2>The orchestration, safety, and reporting layer around the tools you already trust.</h2>
         <p>Vulna is not another vulnerability engine. It coordinates proven open-source scanners, keeps them inside approved scope, and turns their raw output into correlated assets, tracked findings, and shareable reports.</p>
       </div>
-      <div class="feat-rows">
-        <div class="feat">
+      
+      <div class="feat-grid">
+        <div class="feat-card">
           <span class="num">01</span>
           <h3>One control plane</h3>
           <p>VulnaDash runs discovery, scanning, findings, and reporting for every scope from a single dashboard, REST API, and CLI. No SSH-ing into ten scanner boxes at 1am to piece together what changed.</p>
         </div>
-        <div class="feat">
+        <div class="feat-card">
           <span class="num">02</span>
           <h3>Scouts reach every segment</h3>
           <p>VulnaScout is a small Go agent that runs on a Raspberry Pi, a VM, a container, or an old desktop. Put one in each site, VLAN, or DMZ and assess networks a single scanner box could never see.</p>
         </div>
-        <div class="feat">
+        <div class="feat-card">
           <span class="num">03</span>
           <h3>A layer, not another engine</h3>
           <p>Vulna drives nmap, Nuclei, testssl.sh, and OWASP ZAP, then normalizes, dedupes, and correlates the results. You get the safety, evidence, and reporting on top of engines you can already audit.</p>
         </div>
-        <div class="feat">
+        <div class="feat-card">
           <span class="num">04</span>
           <h3>Safe by design</h3>
           <p>Every scout is scope-gated and scans nothing until you approve a network scope. Jobs and policy are Ed25519-signed, probes speak mutual TLS, and active and pentest modules stay allowlisted behind approval gates.</p>
         </div>
-        <div class="feat">
+        <div class="feat-card">
           <span class="num">05</span>
           <h3>CVE intelligence built in</h3>
           <p>VulnaWatch syncs NVD, CISA KEV, and EPSS, enriches every finding, and raises a watch event the moment an asset you already track becomes newly exploitable.</p>
         </div>
-        <div class="feat">
+        <div class="feat-card">
           <span class="num">06</span>
           <h3>From finding to fixed</h3>
           <p>Assign owners, set due dates, accept risk with an expiry, and rescan a single finding. Vulna auto-resolves and reopens, then exports executive and technical PDFs, CSVs, and signed JSON bundles.</p>
@@ -496,34 +694,37 @@
         <h2>Runs on what you already own.</h2>
         <p>No certified hardware list and no minimum spend. The dashboard needs a modest always-on host; scouts are happy on almost anything that boots Linux.</p>
       </div>
-      <div class="spec-wrap">
-        <table class="spec">
-          <thead>
-            <tr><th scope="col">Component</th><th scope="col">CPU</th><th scope="col">RAM</th><th scope="col">Disk</th><th scope="col">Typical hardware</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="role">VulnaDash<span class="sub">one per deployment</span></td>
-              <td class="mono">2 cores</td>
-              <td class="mono">4 GB</td>
-              <td class="mono">20 GB</td>
-              <td class="ex">A mini PC, a NUC, a VM on your hypervisor, or a small cloud instance. Ships as a Docker Compose stack.</td>
-            </tr>
-            <tr>
-              <td class="role">VulnaScout<span class="sub">as many as you need</span></td>
-              <td class="mono">1 core</td>
-              <td class="mono">512 MB</td>
-              <td class="mono">1 GB</td>
-              <td class="ex">Raspberry Pi 3B+ and newer, any VM or container, thin clients, or the 2011 desktop in the closet.</td>
-            </tr>
-          </tbody>
-        </table>
+      
+      <div class="deploy-wrap">
+        <div class="spec-container">
+          <table class="spec">
+            <thead>
+              <tr><th scope="col">Component</th><th scope="col">CPU</th><th scope="col">RAM</th><th scope="col">Disk</th><th scope="col">Typical hardware</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="role">VulnaDash<span class="sub">one per deployment</span></td>
+                <td class="mono">2 cores</td>
+                <td class="mono">4 GB</td>
+                <td class="mono">20 GB</td>
+                <td class="ex">A mini PC, a NUC, a VM on your hypervisor, or a small cloud instance. Ships as a Docker Compose stack.</td>
+              </tr>
+              <tr>
+                <td class="role">VulnaScout<span class="sub">as many as you need</span></td>
+                <td class="mono">1 core</td>
+                <td class="mono">512 MB</td>
+                <td class="mono">1 GB</td>
+                <td class="ex">Raspberry Pi 3B+ and newer, any VM or container, thin clients, or the 2011 desktop in the closet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="hw-note">Official builds for linux/amd64 and linux/arm64. VulnaDash installs with the signed <code>vulna</code> CLI or a Compose stack and migrates its own database on start. A scout is one binary plus one systemd unit, enrolled over mutual TLS with a single-use join token.</p>
       </div>
-      <p class="hw-note">Official builds for linux/amd64 and linux/arm64. VulnaDash installs with the signed <code>vulna</code> CLI or a Compose stack and migrates its own database on start. A scout is one binary plus one systemd unit, enrolled over mutual TLS with a single-use join token.</p>
     </div>
   </section>
 
-  <!-- ================= Quickstart (drench) ================= -->
+  <!-- ================= Quickstart (Drench) ================= -->
   <div class="drench" id="quickstart">
     <section>
       <div class="wrap">
@@ -531,34 +732,45 @@
           <h2>From zero to first scan.</h2>
           <p>Stand up the dashboard, enroll a scout, approve a scope. The long version covering reverse proxies, TLS, and air-gapped installs lives in the docs.</p>
         </div>
+        
         <div class="steps">
           <div class="step">
             <span class="step-label">step 1 / dashboard</span>
             <h3>Stand up VulnaDash</h3>
-            <pre><span class="c"># download and verify the signed release</span>
+            <div class="code-block">
+              <button class="copy-btn" data-copy="curl -fsSLO vulna.dev/install.sh&#10;sh install.sh -- install" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+              <pre><span class="c"># download and verify the signed release</span>
 <span class="p">$</span> curl -fsSLO vulna.dev/install.sh
 <span class="p">$</span> sh install.sh -- install
 <span class="ok">✓</span> dashboard up on :8443</pre>
+            </div>
           </div>
           <div class="step">
             <span class="step-label">step 2 / scout</span>
             <h3>Enroll a scout</h3>
-            <pre><span class="c"># on the Pi / VM / remote host</span>
+            <div class="code-block">
+              <button class="copy-btn" data-copy="./install-scout.sh --token <JOIN-TOKEN>" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+              <pre><span class="c"># on the Pi / VM / remote host</span>
 <span class="p">$</span> ./install-scout.sh \
     --token &lt;JOIN-TOKEN&gt;
 <span class="ok">✓</span> enrolled, scope-gated</pre>
+            </div>
           </div>
           <div class="step">
             <span class="step-label">step 3 / scope</span>
             <h3>Approve a scope and scan</h3>
-            <pre><span class="p">$</span> vulna doctor
+            <div class="code-block">
+              <button class="copy-btn" data-copy="vulna doctor" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+              <pre><span class="p">$</span> vulna doctor
 COMPONENT    STATUS
 dashboard    ok
 local scout  ok
 scout-dmz    ok
 <span class="c"># approve a scope, pick a preset</span></pre>
+            </div>
           </div>
         </div>
+        
         <p class="drench-foot">Stuck on a reverse proxy, a strange NAT, or an air-gapped site? The <a href="https://github.com/codebooker/vulna/tree/main/docs">docs</a> cover it, and the issue tracker is answered by humans.</p>
       </div>
     </section>
@@ -567,19 +779,22 @@ scout-dmz    ok
   <!-- ================= Open source ================= -->
   <section id="opensource">
     <div class="wrap oss">
-      <div class="sec-head">
-        <h2>Open source, the whole stack.</h2>
-        <p>Vulna is AGPL-3.0 and developed in the open on GitHub. No cloud tier, no open-core bait, no capability held back for an enterprise plan. Self-hosted means the findings, the evidence, and the keys stay on your infrastructure.</p>
-        <p style="margin-top: 1rem;">Bug reports, pull requests, and "it broke on my weird hardware" issues are all welcome. Good first issues are labeled.</p>
-        <div class="hero-actions" style="margin-top: 1.75rem;">
-          <a class="btn btn-primary" href="https://github.com/codebooker/vulna">Star the repo</a>
-          <a class="btn btn-ghost" href="https://github.com/codebooker/vulna/blob/main/CONTRIBUTING.md">Contributing guide</a>
+      <div class="oss-content">
+        <div class="sec-head">
+          <h2>Open source, the whole stack.</h2>
+          <p>Vulna is AGPL-3.0 and developed in the open on GitHub. No cloud tier, no open-core bait, no capability held back for an enterprise plan. Self-hosted means the findings, the evidence, and the keys stay on your infrastructure.</p>
+          <p style="margin-top: 1.25rem;">Bug reports, pull requests, and "it broke on my weird hardware" issues are all welcome. Good first issues are labeled.</p>
+          <div class="hero-actions" style="margin-top: 2rem;">
+            <a class="btn btn-primary" href="https://github.com/codebooker/vulna">Star the repo</a>
+            <a class="btn btn-ghost" href="https://github.com/codebooker/vulna/blob/main/CONTRIBUTING.md">Contributing guide</a>
+          </div>
         </div>
         <div class="notice">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--teal-bright)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--teal-bright)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <span><strong>Authorized use only.</strong> Vulna is for assessing systems and networks you own or have explicit written permission to test. Scope approval, mutual TLS, and audit logging are built in to keep it that way.</span>
         </div>
       </div>
+      
       <dl class="oss-facts">
         <div class="oss-fact"><dt>License</dt><dd>AGPL-3.0</dd></div>
         <div class="oss-fact"><dt>Dashboard</dt><dd>Python · FastAPI</dd></div>
@@ -596,7 +811,7 @@ scout-dmz    ok
 <footer>
   <div class="wrap foot">
     <a class="brand" href="#" aria-label="Vulna home">
-      <svg width="24" height="22" viewBox="0 0 142 134" fill="none" aria-hidden="true">
+      <svg width="22" height="20" viewBox="0 0 142 134" fill="none" aria-hidden="true">
         <rect x="0"  y="52" width="9"  height="9" fill="#006666"/>
         <rect x="14" y="38" width="7"  height="7" fill="#00A3A3"/>
         <rect x="10" y="66" width="12" height="8" fill="#013B3B"/>
@@ -628,6 +843,172 @@ scout-dmz    ok
     <p class="foot-legal">Authorized use only. Assess only systems you own or are explicitly permitted to test.</p>
   </div>
 </footer>
+
+<script>
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  
+  let width, height;
+  let particles = [];
+  let mouse = { x: null, y: null };
+  let isHovering = false;
+  
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    const hero = document.querySelector('.hero-wrapper');
+    height = canvas.height = hero.offsetHeight || window.innerHeight;
+  }
+  
+  window.addEventListener('resize', resize);
+  
+  const heroWrapper = document.querySelector('.hero-wrapper');
+  heroWrapper.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    isHovering = true;
+  });
+  
+  heroWrapper.addEventListener('mouseleave', () => {
+    isHovering = false;
+  });
+  
+  class Particle {
+    constructor() {
+      // Create a swirling sphere distribution
+      this.radius = Math.random() * 300 + 120;
+      this.theta = Math.random() * Math.PI * 2; // azimuthal angle
+      // Bias polar angle towards the equator for a ring-like feel
+      this.phi = Math.acos((Math.random() - 0.5) * 1.5); 
+      
+      this.speed = (Math.random() * 0.0015 + 0.0005) * (Math.random() > 0.5 ? 1 : -1);
+      this.size = Math.random() * 1.5 + 0.5;
+      
+      // Vulna brand colors
+      const colors = ['rgba(0, 102, 102, 0.8)', 'rgba(45, 212, 191, 0.8)', 'rgba(0, 163, 163, 0.8)', 'rgba(1, 59, 59, 0.6)'];
+      this.color = colors[Math.floor(Math.random() * colors.length)];
+      
+      this.x = 0;
+      this.y = 0;
+      this.vx = 0;
+      this.vy = 0;
+    }
+    
+    update() {
+      // Slowly rotate around Y axis
+      this.theta += this.speed;
+      
+      // 3D coordinates
+      let x3d = this.radius * Math.sin(this.phi) * Math.cos(this.theta);
+      let y3d = this.radius * Math.cos(this.phi); // Y is up/down in 3D
+      let z3d = this.radius * Math.sin(this.phi) * Math.sin(this.theta);
+      
+      // Tilt the ring (rotate around X axis)
+      let tilt = 0.8; 
+      let y3dTilted = y3d * Math.cos(tilt) - z3d * Math.sin(tilt);
+      let z3dTilted = y3d * Math.sin(tilt) + z3d * Math.cos(tilt);
+      
+      // Perspective projection
+      let focalLength = 600;
+      let scale = focalLength / (focalLength + z3dTilted);
+      
+      // Move system origin towards the right to balance the asymmetric layout
+      let centerX = width > 768 ? width * 0.7 : width / 2;
+      let centerY = height / 2;
+      
+      let targetX = centerX + x3d * scale;
+      let targetY = centerY + y3dTilted * scale;
+      
+      // Mouse repulsion (rippling effect)
+      let dx = mouse.x - targetX;
+      let dy = mouse.y - targetY;
+      let distance = Math.sqrt(dx * dx + dy * dy);
+      let repelRadius = 200;
+      
+      if (isHovering && distance < repelRadius) {
+        let force = Math.pow((repelRadius - distance) / repelRadius, 2);
+        let angle = Math.atan2(dy, dx);
+        targetX -= Math.cos(angle) * force * 60;
+        targetY -= Math.sin(angle) * force * 60;
+      }
+      
+      // Smooth pursuit for that trailing dash look
+      this.vx = (targetX - this.x) * 0.12;
+      this.vy = (targetY - this.y) * 0.12;
+      
+      // Initialize position on first frame to avoid a massive fly-in
+      if (this.x === 0 && this.y === 0) {
+        this.x = targetX;
+        this.y = targetY;
+      } else {
+        this.x += this.vx;
+        this.y += this.vy;
+      }
+      
+      this.currentScale = scale;
+    }
+    
+    draw() {
+      if (this.currentScale < 0) return;
+      
+      // Dash length depends on velocity, making moving pieces stretch
+      let speedSq = this.vx * this.vx + this.vy * this.vy;
+      let length = Math.min(speedSq * 0.6 + 2, 15) * this.currentScale;
+      let angle = Math.atan2(this.vy, this.vx);
+      
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(angle);
+      ctx.beginPath();
+      ctx.moveTo(-length/2, 0);
+      ctx.lineTo(length/2, 0);
+      ctx.strokeStyle = this.color;
+      ctx.lineWidth = this.size * this.currentScale;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+  
+  function init() {
+    resize();
+    particles = [];
+    let numParticles = window.innerWidth > 768 ? 700 : 300;
+    for (let i = 0; i < numParticles; i++) {
+      particles.push(new Particle());
+    }
+  }
+  
+  function animate() {
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, width, height);
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+    }
+  }
+  
+  init();
+  animate();
+</script>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.getAttribute('data-copy');
+      if (text) {
+        navigator.clipboard.writeText(text).then(() => {
+          btn.classList.add('copied');
+          btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+          }, 2000);
+        });
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
