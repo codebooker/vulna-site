@@ -749,11 +749,13 @@
             <span class="step-label">step 2 / scout</span>
             <h3>Enroll a scout</h3>
             <div class="code-block">
-              <button class="copy-btn" data-copy="./install-scout.sh --token <JOIN-TOKEN>" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+              <button class="copy-btn" data-copy="curl -fsSLO vulna.dev/install-scout.sh&#10;VULNA_SERVER=https://dash.example.com VULNA_ENROLL_TOKEN=<JOIN-TOKEN> sh install-scout.sh" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
               <pre><span class="c"># on the Pi / VM / remote host</span>
-<span class="p">$</span> ./install-scout.sh \
-    --token &lt;JOIN-TOKEN&gt;
-<span class="ok">✓</span> enrolled, scope-gated</pre>
+<span class="p">$</span> curl -fsSLO vulna.dev/install-scout.sh
+<span class="p">$</span> VULNA_SERVER=https://dash.example.com \
+    VULNA_ENROLL_TOKEN=&lt;JOIN-TOKEN&gt; \
+    sh install-scout.sh
+<span class="ok">✓</span> enrolled over mTLS, scope-gated</pre>
             </div>
           </div>
           <div class="step">
@@ -771,6 +773,23 @@ scout-dmz    ok
           </div>
         </div>
         
+        <div class="steps" style="margin-top: 2rem;">
+          <div class="step">
+            <span class="step-label">optional / relay</span>
+            <h3>Reach a segment no scout can sit in</h3>
+            <p style="color: var(--text-dim); margin: 0.5rem 0 1.25rem; font-size: 0.95rem;">Deploy a VulnaRelay — a scanner-free, kill-switched WireGuard egress endpoint — when scans must exit through a network a scout can't live in. It carries only approved-scope traffic and fails closed. Runs as root; it is the one privileged component.</p>
+            <div class="code-block">
+              <button class="copy-btn" data-copy="curl -fsSLO vulna.dev/install-relay.sh&#10;sudo VULNA_SERVER=https://dash.example.com VULNA_RELAY_TOKEN=<JOIN-TOKEN> sh install-relay.sh" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+              <pre><span class="c"># on the remote egress host, as root</span>
+<span class="p">$</span> curl -fsSLO vulna.dev/install-relay.sh
+<span class="p">$</span> sudo VULNA_SERVER=https://dash.example.com \
+    VULNA_RELAY_TOKEN=&lt;JOIN-TOKEN&gt; \
+    sh install-relay.sh
+<span class="ok">✓</span> egress tunnel up, kill-switch armed</pre>
+            </div>
+          </div>
+        </div>
+
         <p class="drench-foot">Stuck on a reverse proxy, a strange NAT, or an air-gapped site? The <a href="https://github.com/codebooker/vulna/tree/main/docs">docs</a> cover it, and the issue tracker is answered by humans.</p>
       </div>
     </section>
