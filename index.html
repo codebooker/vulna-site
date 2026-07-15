@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vulna — self-hosted security assessment across every site</title>
-<meta name="description" content="Vulna is an open-source, self-hosted platform for vulnerability detection, authorized pentesting, and CVE monitoring. One dashboard coordinates lightweight scout probes across your network. No cloud, no license fees, no data leaving your infrastructure.">
+<title>Vulna | Self-hosted security assessment across every site</title>
+<meta name="description" content="Vulna is an open-source security assessment and vulnerability management platform. Scan locally, deploy VulnaScout, or tunnel through VulnaRelay while keeping one self-hosted control plane.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="alternate icon" href="vulna-mark.png">
 <link rel="apple-touch-icon" href="vulna-mark.png">
@@ -13,18 +13,18 @@
 <!-- Social -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vulna.dev/">
-<meta property="og:title" content="Vulna — self-hosted security assessment across every site">
-<meta property="og:description" content="One dashboard coordinates lightweight scout probes across your network. Open-source, self-hosted vulnerability detection, authorized pentesting, and CVE monitoring. No cloud, no license fees.">
+<meta property="og:title" content="Vulna | One appliance. Every site.">
+<meta property="og:description" content="Self-hosted assessment, inventory, risk, remediation, and reporting with local scanning, VulnaScout, or VulnaRelay.">
 <meta property="og:image" content="https://vulna.dev/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Vulna — self-hosted security assessment across every site">
-<meta name="twitter:description" content="One dashboard coordinates lightweight scout probes across your network. Open-source, self-hosted, no cloud.">
+<meta name="twitter:title" content="Vulna | One appliance. Every site.">
+<meta name="twitter:description" content="Self-hosted assessment and vulnerability management with local scanning, VulnaScout, or VulnaRelay.">
 <meta name="twitter:image" content="https://vulna.dev/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
 <style>
   :root {
     --brand-teal: #006666; 
@@ -156,9 +156,6 @@
   }
   .hero h1 .accent { 
     color: var(--teal-bright);
-    background: linear-gradient(to right, #2dd4bf, var(--brand-teal));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
   }
   .hero p.lede {
     margin-top: 1.75rem;
@@ -213,6 +210,7 @@
     box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     position: relative;
     overflow: hidden;
+    max-width: 100%;
   }
   .hero-cmd::before {
     content: '';
@@ -281,7 +279,7 @@
   .feat-grid { 
     margin-top: 4rem; 
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
     gap: 1.5rem; 
   }
   .feat-card {
@@ -372,7 +370,7 @@
   .drench section { border: none; }
   .steps {
     margin-top: 4rem;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
     gap: 2rem;
   }
   .step { 
@@ -394,6 +392,7 @@
     text-transform: uppercase; letter-spacing: 0.05em;
   }
   .step h3 { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1.25rem; }
+  .step-copy { color: var(--text-secondary); margin: -0.4rem 0 1.25rem; font-size: 0.95rem; }
   .code-block { position: relative; }
   .copy-btn {
     position: absolute; top: 0.5rem; right: 0.5rem;
@@ -403,8 +402,9 @@
   }
   .code-block:hover .copy-btn, .hero-cmd:hover .copy-btn { opacity: 1; }
   .copy-btn:hover { background: var(--teal-muted); color: #fff; transform: translateY(-1px); }
+  .copy-btn:focus-visible { opacity: 1; outline: 2px solid var(--teal-bright); outline-offset: 2px; }
   .copy-btn.copied { background: #34d399; color: #000; border-color: #34d399; }
-  .hero-cmd .hero-cmd-lines { display: flex; flex-direction: column; gap: 0.2rem; }
+  .hero-cmd .hero-cmd-lines { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; overflow-x: auto; text-align: left; }
   .hero-cmd .copy-btn { position: static; opacity: 0; margin: -0.25rem -0.25rem -0.25rem 0; }
   .step pre {
     background: #09090b; /* Very dark for terminal */
@@ -489,7 +489,16 @@
     .oss-content .hero-actions { justify-content: center; }
     .notice { margin-inline: auto; text-align: left; }
     
-    .nav-links { display: none; }
+    .nav-links { display: flex; gap: 0; }
+    .nav-links > a:not(.nav-gh) { display: none; }
+  }
+
+  @media (max-width: 36rem) {
+    .wrap { padding-inline: 1.1rem; }
+    .hero-cmd { gap: 0.6rem; padding: 0.85rem; font-size: 0.78rem; }
+    .feat-card, .step { padding: 1.4rem; }
+    .spec th, .spec td { padding: 1rem; }
+    .foot-links { margin-left: 0; flex-basis: 100%; gap: 1.25rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -549,16 +558,16 @@
     <div class="hero-glow"></div>
     <div class="hero wrap">
       <div class="hero-content">
-        <h1>One dashboard runs the assessment. <span class="accent">The scouts run wherever your assets live.</span></h1>
-        <p class="lede">Vulna is a self-hosted, distributed security-assessment platform. A central dashboard coordinates a fleet of lightweight scout probes across your sites and network segments, driving the scanners you already trust. No cloud account, no license key, no findings leaving your network.</p>
+        <h1>One appliance. Every site. <span class="accent">Every finding under your control.</span></h1>
+        <p class="lede">Vulna is a self-hosted security assessment and vulnerability management platform. Scan networks directly from the appliance, run scanners on a remote VulnaScout, or reach a constrained site through VulnaRelay. No vendor cloud or license key is required.</p>
         
         <div class="hero-cmd-wrap">
-          <div class="hero-cmd" role="img" aria-label="Terminal command: curl -fsSLO vulna.dev/install.sh, then sh install.sh -- install">
+          <div class="hero-cmd">
             <div class="hero-cmd-lines">
-              <div><span class="prompt">~</span> curl -fsSLO vulna.dev/install.sh</div>
-              <div><span class="prompt">~</span> sh install.sh -- install</div>
+              <div><span class="prompt">~</span> git clone https://github.com/codebooker/vulna.git</div>
+              <div><span class="prompt">~</span> cd vulna &amp;&amp; cp .env.example .env</div>
             </div>
-            <button class="copy-btn" data-copy="curl -fsSLO vulna.dev/install.sh&#10;sh install.sh -- install" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+            <button class="copy-btn" data-copy="git clone https://github.com/codebooker/vulna.git&#10;cd vulna &amp;&amp; cp .env.example .env" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
           </div>
         </div>
 
@@ -567,17 +576,17 @@
             <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
             View on GitHub
           </a>
-          <a class="btn btn-ghost" href="#quickstart">Quickstart</a>
+          <a class="btn btn-ghost" href="https://github.com/codebooker/vulna/blob/main/docs/quickstart.md">Read the quickstart</a>
         </div>
         
         <p class="hero-meta">
-          <span>AGPL-3.0</span><span>mTLS-secured</span><span>ARM &amp; x86</span>
+          <span>AGPL-3.0</span><span>Self-hosted</span><span>Linux ARM &amp; x86</span>
         </p>
       </div>
 
       <figure class="hero-fig">
-        <!-- Topology: dashboard hub, scout probes across segments -->
-        <svg viewBox="0 0 420 380" role="img" aria-label="Network diagram: a central Vulna dashboard connected to scout probes deployed in the office LAN, a DMZ, a second site, and a cloud VPC">
+        <!-- Topology: central appliance with local Scout, remote Scouts, and Relay -->
+        <svg viewBox="0 0 420 380" role="img" aria-label="Network diagram: a central Vulna appliance scans its local network, coordinates VulnaScout endpoints, and sends centrally executed scans through VulnaRelay">
           <defs>
             <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stop-color="#006666" stop-opacity="0.5"/>
@@ -606,40 +615,40 @@
             <line class="link-line" x1="210" y1="190" x2="350" y2="320"/>
           </g>
 
-          <!-- hub dashboard -->
+          <!-- central appliance -->
           <g filter="url(#shadow)">
             <rect x="140" y="150" width="140" height="80" rx="12" fill="oklch(0.18 0.02 205)" stroke="#008080" stroke-width="1.5"/>
             <circle cx="160" cy="170" r="4" fill="#2dd4bf"/>
             <rect x="156" y="196" width="108" height="6" rx="3" fill="oklch(0.3 0.03 200)"/>
             <rect x="156" y="210" width="70" height="6" rx="3" fill="oklch(0.3 0.03 200)"/>
-            <text x="176" y="174" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#fff">dashboard</text>
+            <text x="176" y="174" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#fff">appliance</text>
           </g>
 
-          <!-- scouts -->
+          <!-- deployment endpoints -->
           <g font-family="JetBrains Mono, monospace" font-size="11" font-weight="600" fill="oklch(0.8 0.02 195)">
             <g filter="url(#shadow)">
               <circle cx="80" cy="60" r="28" fill="oklch(0.15 0.02 205)" stroke="#006666" stroke-width="2"/>
               <circle cx="80" cy="50" r="3.5" fill="#2dd4bf"/>
-              <text x="80" y="72" text-anchor="middle">office</text>
+              <text x="80" y="72" text-anchor="middle">local</text>
             </g>
             <g filter="url(#shadow)">
               <circle cx="345" cy="70" r="28" fill="oklch(0.15 0.02 205)" stroke="#006666" stroke-width="2"/>
               <circle cx="345" cy="60" r="3.5" fill="#2dd4bf"/>
-              <text x="345" y="82" text-anchor="middle">dmz</text>
+              <text x="345" y="82" text-anchor="middle">scout</text>
             </g>
             <g filter="url(#shadow)">
               <circle cx="70" cy="315" r="28" fill="oklch(0.15 0.02 205)" stroke="#006666" stroke-width="2"/>
               <circle cx="70" cy="305" r="3.5" fill="#2dd4bf"/>
-              <text x="70" y="327" text-anchor="middle">site-b</text>
+              <text x="70" y="327" text-anchor="middle">relay</text>
             </g>
             <g filter="url(#shadow)">
               <circle cx="350" cy="320" r="28" fill="oklch(0.15 0.02 205)" stroke="#006666" stroke-width="2"/>
               <circle cx="350" cy="310" r="3.5" fill="#2dd4bf"/>
-              <text x="350" y="332" text-anchor="middle">cloud</text>
+              <text x="350" y="332" text-anchor="middle">scout</text>
             </g>
           </g>
         </svg>
-        <figcaption>1 dashboard · n scouts · 0 cloud dependencies</figcaption>
+        <figcaption>local Scout · remote Scouts · scope-controlled Relays</figcaption>
       </figure>
     </div>
   </div>
@@ -648,40 +657,50 @@
   <section id="features">
     <div class="wrap">
       <div class="sec-head">
-        <h2>The orchestration, safety, and reporting layer around the tools you already trust.</h2>
-        <p>Vulna is not another vulnerability engine. It coordinates proven open-source scanners, keeps them inside approved scope, and turns their raw output into correlated assets, tracked findings, and shareable reports.</p>
+        <h2>From first discovery to verified remediation.</h2>
+        <p>Vulna coordinates proven scanners, enforces approved scope, builds a durable asset inventory, explains risk, and gives teams a clear path from finding to report to verified fix.</p>
       </div>
       
       <div class="feat-grid">
         <div class="feat-card">
           <span class="num">01</span>
-          <h3>One control plane</h3>
-          <p>VulnaDash runs discovery, scanning, findings, and reporting for every scope from a single dashboard, REST API, and CLI. No SSH-ing into ten scanner boxes at 1am to piece together what changed.</p>
+          <h3>Assessment from discovery to web</h3>
+          <p>Drive nmap, Nuclei, testssl.sh, and OWASP ZAP through signed workflows. Run service discovery, vulnerability and TLS checks, gated web assessment, and explicitly approved controlled pentest sessions.</p>
         </div>
         <div class="feat-card">
           <span class="num">02</span>
-          <h3>Scouts reach every segment</h3>
-          <p>VulnaScout is a small Go agent that runs on a Raspberry Pi, a VM, a container, or an old desktop. Put one in each site, VLAN, or DMZ and assess networks a single scanner box could never see.</p>
+          <h3>Three ways to reach a network</h3>
+          <p>Use the appliance's bundled local Scout, install a remote VulnaScout where scanners should run at the edge, or use a scanner-free VulnaRelay to tunnel approved traffic from central scanners.</p>
         </div>
         <div class="feat-card">
           <span class="num">03</span>
-          <h3>A layer, not another engine</h3>
-          <p>Vulna drives nmap, Nuclei, testssl.sh, and OWASP ZAP, then normalizes, dedupes, and correlates the results. You get the safety, evidence, and reporting on top of engines you can already audit.</p>
+          <h3>Inventory with real context</h3>
+          <p>Track assets, services, observations, and material changes. Add read-only SSH or WinRM software inventory, passive source connectors, tags, dynamic groups, ownership, and reversible reconciliation.</p>
         </div>
         <div class="feat-card">
           <span class="num">04</span>
-          <h3>Safe by design</h3>
-          <p>Every scout is scope-gated and scans nothing until you approve a network scope. Jobs and policy are Ed25519-signed, probes speak mutual TLS, and active and pentest modules stay allowlisted behind approval gates.</p>
+          <h3>Explainable risk, not a mystery score</h3>
+          <p>Enrich findings with NVD, CISA KEV, EPSS, and advisories. Versioned risk profiles retain normalized inputs, factor contributions, decisions, acceptance expiries, and score history.</p>
         </div>
         <div class="feat-card">
           <span class="num">05</span>
-          <h3>CVE intelligence built in</h3>
-          <p>VulnaWatch syncs NVD, CISA KEV, and EPSS, enriches every finding, and raises a watch event the moment an asset you already track becomes newly exploitable.</p>
+          <h3>From finding to verified fix</h3>
+          <p>Build remediation units, assign owners, apply policy-driven SLAs, synchronize Jira, GitHub, GitLab, GLPI, or a generic ticket system, and close the loop with a targeted verification scan.</p>
         </div>
         <div class="feat-card">
           <span class="num">06</span>
-          <h3>From finding to fixed</h3>
-          <p>Assign owners, set due dates, accept risk with an expiry, and rescan a single finding. Vulna auto-resolves and reopens, then exports executive and technical PDFs, CSVs, and signed JSON bundles.</p>
+          <h3>Reports for every audience</h3>
+          <p>Generate executive, technical, pentest, or full-spectrum PDFs plus permission-scoped CSV and JSON exports. Reuse templates, filter by site or asset group, and schedule recurring report definitions.</p>
+        </div>
+        <div class="feat-card">
+          <span class="num">07</span>
+          <h3>Identity and accountability</h3>
+          <p>Use granular RBAC, scoped grants, service accounts, MFA, WebAuthn, OIDC or SAML SSO, and SCIM provisioning. Step-up checks and the audit log protect and attribute sensitive actions.</p>
+        </div>
+        <div class="feat-card">
+          <span class="num">08</span>
+          <h3>Operate it on your terms</h3>
+          <p>Back up, restore, update, roll back, monitor, and troubleshoot the appliance yourself. Offline workflows are supported, integrations are opt-in, and optional aggregate telemetry is off by default.</p>
         </div>
       </div>
     </div>
@@ -691,35 +710,39 @@
   <section id="deploy">
     <div class="wrap">
       <div class="sec-head">
-        <h2>Runs on what you already own.</h2>
-        <p>No certified hardware list and no minimum spend. The dashboard needs a modest always-on host; scouts are happy on almost anything that boots Linux.</p>
+        <h2>Start with one appliance. Extend only when you need to.</h2>
+        <p>The appliance includes a local Scout, so it can assess any approved network it can already reach. Add a remote endpoint only for another location, VLAN, DMZ, or routing boundary.</p>
       </div>
       
       <div class="deploy-wrap">
         <div class="spec-container">
           <table class="spec">
             <thead>
-              <tr><th scope="col">Component</th><th scope="col">CPU</th><th scope="col">RAM</th><th scope="col">Disk</th><th scope="col">Typical hardware</th></tr>
+              <tr><th scope="col">Deployment</th><th scope="col">Where scanners run</th><th scope="col">Endpoint needs</th><th scope="col">Choose it when</th></tr>
             </thead>
             <tbody>
               <tr>
-                <td class="role">VulnaDash<span class="sub">one per deployment</span></td>
-                <td class="mono">2 cores</td>
-                <td class="mono">4 GB</td>
-                <td class="mono">20 GB</td>
-                <td class="ex">A mini PC, a NUC, a VM on your hypervisor, or a small cloud instance. Ships as a Docker Compose stack.</td>
+                <td class="role">Central appliance<span class="sub">bundled local Scout</span></td>
+                <td class="ex">On the appliance</td>
+                <td class="mono">2 CPU · 4 GB RAM · 20 GB</td>
+                <td class="ex">The appliance can route to the network. No separate endpoint is required.</td>
               </tr>
               <tr>
-                <td class="role">VulnaScout<span class="sub">as many as you need</span></td>
-                <td class="mono">1 core</td>
-                <td class="mono">512 MB</td>
-                <td class="mono">1 GB</td>
-                <td class="ex">Raspberry Pi 3B+ and newer, any VM or container, thin clients, or the 2011 desktop in the closet.</td>
+                <td class="role">VulnaScout<span class="sub">recommended remote option</span></td>
+                <td class="ex">On the remote Scout</td>
+                <td class="mono">Linux amd64/arm64 · Nmap</td>
+                <td class="ex">A site can run scanners locally and enforce signed scope at the edge.</td>
+              </tr>
+              <tr>
+                <td class="role">VulnaRelay<span class="sub">advanced, opt-in</span></td>
+                <td class="ex">On the appliance, through the tunnel</td>
+                <td class="mono">Linux · root · WireGuard · IPv4</td>
+                <td class="ex">The remote host should be scanner-free and provide only a kill-switched, scope-controlled egress path.</td>
               </tr>
             </tbody>
           </table>
         </div>
-        <p class="hw-note">Official builds for linux/amd64 and linux/arm64. VulnaDash installs with the signed <code>vulna</code> CLI or a Compose stack and migrates its own database on start. A scout is one binary plus one systemd unit, enrolled over mutual TLS with a single-use join token.</p>
+        <p class="hw-note">Native appliance, Scout, and Relay services currently require Linux on <code>amd64</code> or <code>arm64</code>. Windows and macOS are supported as browser clients and assessment targets, but not yet as native endpoint-service hosts. Windows software inventory runs remotely through WinRM from an eligible Linux Scout.</p>
       </div>
     </div>
   </section>
@@ -729,68 +752,65 @@
     <section>
       <div class="wrap">
         <div class="sec-head">
-          <h2>From zero to first scan.</h2>
-          <p>Stand up the dashboard, enroll a scout, approve a scope. The long version covering reverse proxies, TLS, and air-gapped installs lives in the docs.</p>
+          <h2>From source checkout to first safe scan.</h2>
+          <p>Vulna is still pre-1.0. Evaluate the current code from a trusted checkout today; when signed releases are published, pin and verify the exact release tag described in the installation guide.</p>
         </div>
         
         <div class="steps">
           <div class="step">
-            <span class="step-label">step 1 / dashboard</span>
-            <h3>Stand up VulnaDash</h3>
+            <span class="step-label">step 1 / appliance</span>
+            <h3>Start the central appliance</h3>
+            <p class="step-copy">Review <code>.env</code> and set its required secrets before starting the stack.</p>
             <div class="code-block">
-              <button class="copy-btn" data-copy="curl -fsSLO vulna.dev/install.sh&#10;sh install.sh -- install" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-              <pre><span class="c"># download and verify the signed release</span>
-<span class="p">$</span> curl -fsSLO vulna.dev/install.sh
-<span class="p">$</span> sh install.sh -- install
-<span class="ok">✓</span> dashboard up on :8443</pre>
+              <button class="copy-btn" data-copy="git clone https://github.com/codebooker/vulna.git&#10;cd vulna&#10;cp .env.example .env&#10;docker compose -f docker-compose.yml -f docker-compose.single-host.yml up -d --build" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+              <pre><span class="p">$</span> git clone https://github.com/codebooker/vulna.git
+<span class="p">$</span> cd vulna
+<span class="p">$</span> cp .env.example .env
+<span class="c"># review and configure .env, then:</span>
+<span class="p">$</span> docker compose -f docker-compose.yml \
+    -f docker-compose.single-host.yml up -d --build</pre>
             </div>
           </div>
           <div class="step">
-            <span class="step-label">step 2 / scout</span>
-            <h3>Enroll a scout</h3>
-            <div class="code-block">
-              <button class="copy-btn" data-copy="curl -fsSLO vulna.dev/install-scout.sh&#10;VULNA_SERVER=https://dash.example.com VULNA_ENROLL_TOKEN=<JOIN-TOKEN> sh install-scout.sh" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-              <pre><span class="c"># on the Pi / VM / remote host</span>
-<span class="p">$</span> curl -fsSLO vulna.dev/install-scout.sh
-<span class="p">$</span> VULNA_SERVER=https://dash.example.com \
-    VULNA_ENROLL_TOKEN=&lt;JOIN-TOKEN&gt; \
-    sh install-scout.sh
-<span class="ok">✓</span> enrolled over mTLS, scope-gated</pre>
-            </div>
+            <span class="step-label">step 2 / first run</span>
+            <h3>Approve a small private scope</h3>
+            <p class="step-copy">Sign in, save the recovery codes, and finish the guided setup. The bundled local Scout starts unable to scan anything.</p>
+            <pre><span class="c">First-run wizard</span>
+1. Choose your deployment profile
+2. Add an owned private range
+3. Confirm local Scout: <span class="ok">connected</span></pre>
           </div>
           <div class="step">
-            <span class="step-label">step 3 / scope</span>
-            <h3>Approve a scope and scan</h3>
-            <div class="code-block">
-              <button class="copy-btn" data-copy="vulna doctor" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-              <pre><span class="p">$</span> vulna doctor
-COMPONENT    STATUS
-dashboard    ok
-local scout  ok
-scout-dmz    ok
-<span class="c"># approve a scope, pick a preset</span></pre>
-            </div>
+            <span class="step-label">step 3 / assessment</span>
+            <h3>Run, review, and report</h3>
+            <p class="step-copy">Use the non-intrusive preset first. Watch every stage, inspect evidence, and generate a permission-scoped artifact.</p>
+            <pre>Preset: <span class="ok">Standard Security Check</span>
+Operations → Scans
+Operations → Findings
+Management → Reports</pre>
           </div>
         </div>
         
         <div class="steps" style="margin-top: 2rem;">
           <div class="step">
-            <span class="step-label">optional / relay</span>
-            <h3>Reach a segment no scout can sit in</h3>
-            <p style="color: var(--text-dim); margin: 0.5rem 0 1.25rem; font-size: 0.95rem;">Deploy a VulnaRelay — a scanner-free, kill-switched WireGuard egress endpoint — when scans must exit through a network a scout can't live in. It carries only approved-scope traffic and fails closed. Runs as root; it is the one privileged component.</p>
-            <div class="code-block">
-              <button class="copy-btn" data-copy="curl -fsSLO vulna.dev/install-relay.sh&#10;sudo VULNA_SERVER=https://dash.example.com VULNA_RELAY_TOKEN=<JOIN-TOKEN> sh install-relay.sh" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-              <pre><span class="c"># on the remote egress host, as root</span>
-<span class="p">$</span> curl -fsSLO vulna.dev/install-relay.sh
-<span class="p">$</span> sudo VULNA_SERVER=https://dash.example.com \
-    VULNA_RELAY_TOKEN=&lt;JOIN-TOKEN&gt; \
-    sh install-relay.sh
-<span class="ok">✓</span> egress tunnel up, kill-switch armed</pre>
-            </div>
+            <span class="step-label">optional / remote Scout</span>
+            <h3>Run scanners at another site</h3>
+            <p class="step-copy">Choose a VulnaScout for most branch offices, client sites, and segmented networks. It enforces signed scope locally and sends results back over outbound mTLS.</p>
+            <pre>Management → Appliances → Add Scout
+Copy the generated one-time command
+Wait for status: <span class="ok">connected</span></pre>
+          </div>
+          <div class="step">
+            <span class="step-label">optional / Relay</span>
+            <h3>Keep scanners on the appliance</h3>
+            <p class="step-copy">Enable VulnaRelay when the remote endpoint should provide only a WireGuard egress path. Organization opt-in, approved IPv4 scope, kill switches, and central egress controls remain explicit.</p>
+            <pre>Management → Appliances → Relay
+Enable organization Relay mode
+Generate the one-time install command</pre>
           </div>
         </div>
 
-        <p class="drench-foot">Stuck on a reverse proxy, a strange NAT, or an air-gapped site? The <a href="https://github.com/codebooker/vulna/tree/main/docs">docs</a> cover it, and the issue tracker is answered by humans.</p>
+        <p class="drench-foot">Use the <a href="https://github.com/codebooker/vulna/blob/main/docs/quickstart.md">complete quickstart</a> for the safe first-scan flow and the <a href="https://github.com/codebooker/vulna/blob/main/docs/installation/README.md">installation guide</a> for signed releases, preflight, automation, and offline options.</p>
       </div>
     </section>
   </div>
@@ -801,7 +821,7 @@ scout-dmz    ok
       <div class="oss-content">
         <div class="sec-head">
           <h2>Open source, the whole stack.</h2>
-          <p>Vulna is AGPL-3.0 and developed in the open on GitHub. No cloud tier, no open-core bait, no capability held back for an enterprise plan. Self-hosted means the findings, the evidence, and the keys stay on your infrastructure.</p>
+          <p>Vulna is AGPL-3.0 and developed in the open on GitHub. There is no vendor control plane, paid tier, or open-core feature gate. Findings, evidence, credentials, and keys stay on your infrastructure unless you deliberately configure an external identity, notification, ticketing, or inventory integration.</p>
           <p style="margin-top: 1.25rem;">Bug reports, pull requests, and "it broke on my weird hardware" issues are all welcome. Good first issues are labeled.</p>
           <div class="hero-actions" style="margin-top: 2rem;">
             <a class="btn btn-primary" href="https://github.com/codebooker/vulna">Star the repo</a>
@@ -817,11 +837,11 @@ scout-dmz    ok
       <dl class="oss-facts">
         <div class="oss-fact"><dt>License</dt><dd>AGPL-3.0</dd></div>
         <div class="oss-fact"><dt>Dashboard</dt><dd>Python · FastAPI</dd></div>
-        <div class="oss-fact"><dt>Scouts</dt><dd>Go · stdlib</dd></div>
+        <div class="oss-fact"><dt>Scout and Relay</dt><dd>Go · stdlib</dd></div>
         <div class="oss-fact"><dt>Drives</dt><dd>nmap · nuclei · testssl · zap</dd></div>
         <div class="oss-fact"><dt>Install</dt><dd>vulna CLI / docker compose</dd></div>
-        <div class="oss-fact"><dt>Architectures</dt><dd>amd64 · arm64</dd></div>
-        <div class="oss-fact"><dt>Telemetry</dt><dd>none</dd></div>
+        <div class="oss-fact"><dt>Endpoint hosts</dt><dd>Linux · amd64 · arm64</dd></div>
+        <div class="oss-fact"><dt>Telemetry</dt><dd>optional · off by default</dd></div>
       </dl>
     </div>
   </section>
@@ -871,11 +891,14 @@ scout-dmz    ok
   let particles = [];
   let mouse = { x: null, y: null };
   let isHovering = false;
+  let animationFrame = null;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   
   function resize() {
     width = canvas.width = window.innerWidth;
     const hero = document.querySelector('.hero-wrapper');
     height = canvas.height = hero.offsetHeight || window.innerHeight;
+    if (reduceMotion.matches && particles.length) drawFrame();
   }
   
   window.addEventListener('resize', resize);
@@ -998,17 +1021,28 @@ scout-dmz    ok
     }
   }
   
-  function animate() {
-    requestAnimationFrame(animate);
+  function drawFrame() {
     ctx.clearRect(0, 0, width, height);
     for (let i = 0; i < particles.length; i++) {
       particles[i].update();
       particles[i].draw();
     }
   }
+
+  function animate() {
+    drawFrame();
+    animationFrame = reduceMotion.matches ? null : requestAnimationFrame(animate);
+  }
+
+  function applyMotionPreference() {
+    if (animationFrame !== null) cancelAnimationFrame(animationFrame);
+    animationFrame = null;
+    animate();
+  }
   
   init();
-  animate();
+  applyMotionPreference();
+  reduceMotion.addEventListener?.('change', applyMotionPreference);
 </script>
 
 <script>
