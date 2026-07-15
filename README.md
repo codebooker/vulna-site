@@ -19,18 +19,19 @@ Brand assets are the canonical exports from
 
 ## Install scripts
 
-The site also hosts the install bootstraps at short URLs, so the commands shown on
-the page resolve:
+The site also hosts short, reviewable install bootstraps for published signed
+releases:
 
 - <https://vulna.dev/install.sh> — VulnaDash bootstrap
 - <https://vulna.dev/install-scout.sh> — VulnaScout enrollment bootstrap
+- <https://vulna.dev/install-relay.sh> — VulnaRelay enrollment bootstrap
 
 These are **mirrored verbatim** from
 [`codebooker/vulna/scripts`](https://github.com/codebooker/vulna/tree/main/scripts)
 (identical bytes and checksums) by the [`sync-install-scripts`](.github/workflows/sync-install-scripts.yml)
 workflow, so reviewing `vulna.dev/install.sh` shows exactly what the product ships.
 
-They are **verify-first**: each downloads a pinned, signed release and checks a
+All three are **verify-first**: each downloads a pinned, signed release and checks a
 SHA-256 checksum plus an Ed25519 signature before running anything. Unverified
 remote content is never piped into a shell. Until the first signed release is
 published they refuse to run (by design) rather than install anything, so the
@@ -41,6 +42,11 @@ curl -fsSLO https://vulna.dev/install.sh
 less install.sh          # review it
 sh install.sh -- install
 ```
+
+The landing page currently directs evaluators to a source checkout instead of
+presenting the unpublished release bootstrap as a working quickstart. Once a
+signed release exists, use the exact published tag as documented in the product
+repository's installation guide.
 
 ## Preview locally
 

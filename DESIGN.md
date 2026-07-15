@@ -19,9 +19,11 @@ Dark only. Scene: a homelabber at 11pm in a dim office lit by rack LEDs, clickin
 - Fluid clamp() heading scale, ratio ≥ 1.25. Body line length ≤ 70ch.
 
 ## Layout
-- Left-aligned, asymmetric hero (copy left, topology SVG right: dashboard + scouts).
-- Features as numbered rows, not card grids.
-- Deployment tiers (VulnaDash / VulnaScout) as a spec-sheet table.
+- Left-aligned, asymmetric hero (copy left, topology SVG right: appliance, local
+  Scout, remote Scouts, and Relay).
+- Features as numbered, text-first panels without decorative icon clutter.
+- Deployment choices (central-only / VulnaScout / VulnaRelay) as a spec-sheet
+  table.
 - Quickstart band drenched in #006666.
 
 ## Motion

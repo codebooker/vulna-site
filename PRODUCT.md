@@ -3,21 +3,42 @@
 register: brand
 
 ## Product Purpose
-Vulna is a free, open-source, self-hosted platform for vulnerability detection,
-authorized penetration testing, continuous CVE monitoring, and multi-location
-security assessment. A central dashboard (VulnaDash) coordinates a fleet of
-lightweight scout probes (VulnaScout) deployed across sites and network segments.
-It is the orchestration, safety, asset-correlation, evidence, and reporting layer
-around proven open-source scanners (nmap, Nuclei, testssl.sh, OWASP ZAP), not
-another vulnerability engine. Hosted on GitHub under AGPL-3.0, free for all to use.
+Vulna is a free, open-source, self-hosted platform for security assessment,
+vulnerability management, inventory, risk analysis, remediation, and reporting.
+The central appliance includes a local Scout and can scan any approved network it
+can reach. Remote VulnaScout endpoints run scanners at another site, while
+VulnaRelay provides an advanced, scanner-free WireGuard path for centrally
+executed scans.
 
-Positioning used on the site: distributed, self-hosted security assessment with
-one control plane and probes wherever the assets are.
+Vulna is the orchestration, safety, asset-correlation, evidence, and workflow
+layer around proven open-source scanners such as nmap, Nuclei, testssl.sh, and
+OWASP ZAP. It is not another vulnerability engine. The complete stack is hosted
+on GitHub under AGPL-3.0.
+
+Positioning used on the site: one self-hosted control plane for assessment,
+inventory, risk, remediation, and reporting across every authorized site.
+
+## Current capability pillars
+
+- Scope-controlled discovery, vulnerability, TLS, web, and controlled pentest
+  workflows
+- Central-only scanning, remote VulnaScout execution, and opt-in VulnaRelay
+  tunneling
+- Asset, service, software, passive-source, ownership, tag, and group context
+- CVE intelligence and explainable, versioned risk scoring
+- Finding decisions, remediation units, SLAs, ticket synchronization, and
+  targeted verification
+- Executive, technical, pentest, and full-spectrum PDF reports plus CSV and JSON
+- Granular RBAC, MFA, WebAuthn, OIDC/SAML SSO, SCIM, service accounts, and audit
+- Backup, restore, update, rollback, health, offline, privacy, and portability
+  operations
 
 ## Users
 - Homelabbers running racks and Pis at home
 - Small businesses without dedicated security budgets
 - Open-source / self-hosting enthusiasts (r/selfhosted crowd)
+- Security and IT teams that need auditable multi-site assessment without a SaaS
+  control plane
 
 They are technical, allergic to SaaS lock-in and marketing fluff, and respect
 projects that are honest about hardware requirements, licensing, and safety.
@@ -35,5 +56,10 @@ marketing superlatives. Three words: utilitarian, dependable, tinker-friendly.
 - Dark theme (explicit requirement)
 - Dark teal #006666 is the brand color and logo color (explicit requirement)
 - GitHub is the primary CTA; there is nothing to buy
-- Show the architecture (dashboard + scouts) visually; this audience reads diagrams
+- Show all three deployment choices clearly: central-only, VulnaScout, and
+  VulnaRelay
+- Be explicit that native appliance, Scout, and Relay service hosts are currently
+  Linux only
+- Integrations and aggregate telemetry are opt-in; never imply that data cannot
+  leave when an administrator deliberately configures an external destination
 - Authorized use only: Vulna assesses systems you own or are permitted to test

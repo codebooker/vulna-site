@@ -22,7 +22,7 @@ jobs:
         run: |
           set -euo pipefail
           base="https://raw.githubusercontent.com/codebooker/vulna/main/scripts"
-          for f in install.sh install-scout.sh; do
+          for f in install.sh install-scout.sh install-relay.sh; do
             curl -fsSL "$base/$f" -o "$f.new"
             chmod +x "$f.new"
             mv "$f.new" "$f"
@@ -30,12 +30,12 @@ jobs:
       - name: Commit if changed
         run: |
           set -euo pipefail
-          if git diff --quiet -- install.sh install-scout.sh; then
+          if git diff --quiet -- install.sh install-scout.sh install-relay.sh; then
             echo "install scripts already up to date"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add install.sh install-scout.sh
+          git add install.sh install-scout.sh install-relay.sh
           git commit -m "Sync install scripts from codebooker/vulna"
           git push
