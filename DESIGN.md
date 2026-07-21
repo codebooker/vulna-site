@@ -15,7 +15,7 @@ publishing, and a modern network operations center without falling into neon
 - Paper: `#edf3ee`
 - Paper secondary: `#d9e3dc`
 - Brand teal: `#18b7a0`
-- Deep teal: `#08796c`
+- Deep teal: `#08665c`
 - Signal lime: `#c8f46b`
 - Warning amber: `#f0b95a`
 - High-risk coral: `#ee806d`
