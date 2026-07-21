@@ -6,11 +6,12 @@ Pages.
 
 ## Contents
 
-- [`index.html`](index.html) is the entire site (embedded CSS, inline SVG shield
-  mark and topology diagram; the only external requests are two Google Fonts).
+- [`index.html`](index.html) is the entire site: semantic HTML, embedded CSS, and
+  a small progressive-enhancement script. The only external requests are two
+  Google Fonts.
 - [`favicon.svg`](favicon.svg) / [`vulna-mark.png`](vulna-mark.png) — the Vulna
   shield mark, used as favicon and touch icon.
-- [`og.png`](og.png) — 1200x630 social-share card.
+- [`og.png`](og.png) — 1200x630 social-share card matching the current site.
 - [`PRODUCT.md`](PRODUCT.md) and [`DESIGN.md`](DESIGN.md) document the brand
   positioning and design tokens.
 

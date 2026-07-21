@@ -1,33 +1,53 @@
 # Vulna design system
 
-## Theme
-Dark only. Scene: a homelabber at 11pm in a dim office lit by rack LEDs, clicking through from a GitHub README.
+## Direction
 
-## Color (OKLCH, Committed strategy: teal carries the surface)
-- Brand teal (logo, drench band): #006666 ≈ oklch(0.47 0.09 194)
-- Background: oklch(0.16 0.012 210)
-- Raised surface: oklch(0.20 0.016 205)
-- Border: oklch(0.30 0.02 200)
-- Text: oklch(0.93 0.008 190)
-- Muted text: oklch(0.68 0.02 195)
-- Accent (bright teal, links/highlights on dark): oklch(0.80 0.12 185)
-- Never pure #000/#fff; all neutrals tinted toward hue 195-210.
+An editorial security operations site: composed, technical, and visibly useful.
+The product interface is the hero rather than an abstract cyber illustration.
+The visual language borrows from field equipment, high-quality technical
+publishing, and a modern network operations center without falling into neon
+"hacker" styling.
+
+## Color
+
+- Ink: `#07110f`
+- Raised ink: `#101f1c`
+- Paper: `#edf3ee`
+- Paper secondary: `#d9e3dc`
+- Brand teal: `#18b7a0`
+- Deep teal: `#08796c`
+- Signal lime: `#c8f46b`
+- Warning amber: `#f0b95a`
+- High-risk coral: `#ee806d`
+
+Teal identifies product structure and active state. Lime is reserved for safe,
+live, or ready states and primary calls to action. Coral and amber appear only
+inside product evidence, never as decoration.
 
 ## Typography
-- Single committed family: Archivo (Google Fonts), weights 400-800, tight tracking on display sizes. Industrial-signage sturdiness fits the appliance/hardware story.
-- JetBrains Mono for code, terminal output, spec values (literal terminal register, not costume).
-- Fluid clamp() heading scale, ratio ≥ 1.25. Body line length ≤ 70ch.
 
-## Layout
-- Left-aligned, asymmetric hero (copy left, topology SVG right: appliance, local
-  Scout, remote Scouts, and Relay).
-- Features as numbered, text-first panels without decorative icon clutter.
-- Deployment choices (central-only / VulnaScout / VulnaRelay) as a spec-sheet
-  table.
-- Quickstart band drenched in #006666.
+- Manrope for product and editorial text, weights 400 through 800.
+- IBM Plex Mono for scope, state, identifiers, controls, and terminal content.
+- Display headings use tight tracking and short line lengths. Body copy stays at
+  comfortable reading measure with generous line height.
+
+## Layout and components
+
+- The hero pairs an assertive editorial headline with a realistic scan workspace.
+- Architecture is explained before the full feature set so Local Scout,
+  VulnaScout, and VulnaRelay are never confused.
+- Capabilities use an asymmetric operations board rather than repeated icon cards.
+- Light "paper" sections create major chapter changes inside the dark shell.
+- Borders, spacing, and typography carry hierarchy. Decorative icons are avoided.
 
 ## Motion
-- Subtle staggered entrance on hero, pulse animation along diagram links. ease-out-quart. Respect prefers-reduced-motion.
 
-## Bans (inherited)
-No gradient text, no side-stripe borders, no identical icon-card grids, no repeated uppercase kicker labels, no em dashes in copy.
+- Short reveal transitions and a restrained live-status pulse.
+- No scroll hijacking, parallax, or continuous canvas effects.
+- `prefers-reduced-motion` removes all meaningful motion.
+
+## Voice
+
+Direct, technically honest, and calm. No fake customer counts, vanity metrics,
+open-core ambiguity, or "book a demo" language. Pre-1.0 status, Linux endpoint
+requirements, local data boundaries, and authorized-use constraints stay visible.

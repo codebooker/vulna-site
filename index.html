@@ -1,1067 +1,777 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vulna | Self-hosted security assessment across every site</title>
-<meta name="description" content="Vulna is an open-source security assessment and vulnerability management platform. Scan locally, deploy VulnaScout, or tunnel through VulnaRelay while keeping one self-hosted control plane.">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="alternate icon" href="vulna-mark.png">
-<link rel="apple-touch-icon" href="vulna-mark.png">
-<meta name="theme-color" content="#006666">
-<link rel="canonical" href="https://vulna.dev/">
-<!-- Social -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://vulna.dev/">
-<meta property="og:title" content="Vulna | One appliance. Every site.">
-<meta property="og:description" content="Self-hosted assessment, inventory, risk, remediation, and reporting with local scanning, VulnaScout, or VulnaRelay.">
-<meta property="og:image" content="https://vulna.dev/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Vulna | One appliance. Every site.">
-<meta name="twitter:description" content="Self-hosted assessment and vulnerability management with local scanning, VulnaScout, or VulnaRelay.">
-<meta name="twitter:image" content="https://vulna.dev/og.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
-<style>
-  :root {
-    --brand-teal: #006666; 
-    --brand-teal-glow: color-mix(in srgb, var(--brand-teal) 40%, transparent);
-    
-    --teal-bright: oklch(0.75 0.15 185);
-    --teal-muted: oklch(0.55 0.08 190);
-    
-    --bg-base: oklch(0.12 0.01 210);
-    --bg-surface: oklch(0.16 0.015 205);
-    --bg-surface-raised: oklch(0.20 0.02 200);
-    --bg-surface-hover: oklch(0.22 0.02 195);
-    
-    --border-faint: oklch(0.20 0.01 205);
-    --border-subtle: oklch(0.26 0.015 200);
-    --border-strong: oklch(0.35 0.03 200);
-    --border-teal: color-mix(in srgb, var(--brand-teal) 60%, transparent);
-    
-    --text-primary: oklch(0.96 0.005 190);
-    --text-secondary: oklch(0.72 0.015 195);
-    --text-tertiary: oklch(0.55 0.02 198);
-    
-    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    --sans: "Archivo", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    
-    --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
-    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vulna | Security operations under your control</title>
+  <meta name="description" content="Vulna is the open-source, self-hosted platform for security assessment, inventory, risk, remediation, and reporting across every authorized site.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" href="vulna-mark.png">
+  <link rel="apple-touch-icon" href="vulna-mark.png">
+  <meta name="theme-color" content="#07110f">
+  <link rel="canonical" href="https://vulna.dev/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vulna.dev/">
+  <meta property="og:title" content="Vulna | Security operations under your control">
+  <meta property="og:description" content="Assess every authorized site from one self-hosted control plane. No SaaS account. No open-core gate.">
+  <meta property="og:image" content="https://vulna.dev/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vulna | Security operations under your control">
+  <meta name="twitter:description" content="Open-source security assessment, inventory, risk, remediation, and reporting across every authorized site.">
+  <meta name="twitter:image" content="https://vulna.dev/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #07110f;
+      --ink-soft: #0b1715;
+      --ink-raised: #101f1c;
+      --paper: #edf3ee;
+      --paper-soft: #d9e3dc;
+      --muted: #91a39a;
+      --line: rgba(199, 224, 211, 0.14);
+      --line-strong: rgba(199, 224, 211, 0.27);
+      --teal: #18b7a0;
+      --teal-dark: #08796c;
+      --teal-deep: #054b43;
+      --lime: #c8f46b;
+      --amber: #f0b95a;
+      --coral: #ee806d;
+      --sans: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --radius-sm: 0.65rem;
+      --radius-md: 1rem;
+      --radius-lg: 1.5rem;
+      --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  
-  html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 5.5rem; }
-  
-  body {
-    background-color: var(--bg-base);
-    color: var(--text-primary);
-    font-family: var(--sans);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-  }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.14;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 4.5rem 4.5rem;
+      mask-image: linear-gradient(to bottom, black, transparent 42rem);
+    }
+    ::selection { background: var(--lime); color: var(--ink); }
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+    img { display: block; max-width: 100%; }
+    code, pre { font-family: var(--mono); }
 
-  ::selection { background: var(--brand-teal); color: #fff; }
+    .shell { width: min(1180px, calc(100% - 2.5rem)); margin-inline: auto; }
+    .mono { font-family: var(--mono); }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+    :focus-visible { outline: 2px solid var(--lime); outline-offset: 4px; }
 
-  a { color: var(--teal-bright); text-decoration: none; transition: color 0.2s ease; }
-  a:hover { color: #fff; }
+    /* Navigation */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--line);
+      background: rgba(7, 17, 15, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .nav {
+      min-height: 4.75rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 0.72rem; text-decoration: none; }
+    .brand img { width: 2.25rem; height: 2.25rem; object-fit: contain; }
+    .brand-word { font-weight: 800; font-size: 1.17rem; letter-spacing: -0.04em; }
+    .brand-word span { color: var(--teal); }
+    .nav-links { margin-left: auto; display: flex; align-items: center; gap: 1.65rem; }
+    .nav-links > a:not(.nav-cta) {
+      color: var(--paper-soft); text-decoration: none; font-size: 0.9rem; font-weight: 600;
+    }
+    .nav-links > a:not(.nav-cta):hover { color: var(--paper); }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      min-height: 2.65rem; padding-inline: 1rem;
+      border: 1px solid var(--line-strong); border-radius: 999px;
+      text-decoration: none; font-size: 0.88rem; font-weight: 700;
+      background: rgba(255,255,255,0.035);
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+    .nav-cta:hover { border-color: var(--teal); background: rgba(24,183,160,0.1); transform: translateY(-1px); }
+    .nav-toggle {
+      display: none; margin-left: auto; width: 2.75rem; height: 2.75rem;
+      border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--paper);
+    }
+    .nav-toggle span { display: block; width: 1rem; height: 1px; margin: 4px auto; background: currentColor; }
 
-  .wrap { max-width: 76rem; margin-inline: auto; padding-inline: clamp(1.5rem, 5vw, 3rem); }
+    /* Shared */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.65rem;
+      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--paper-soft);
+    }
+    .eyebrow::before { content: ""; width: 1.75rem; height: 1px; background: var(--teal); }
+    .section { padding-block: clamp(5.5rem, 10vw, 9rem); }
+    .section-heading { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(20rem, 1fr); gap: 4rem; align-items: end; }
+    .section-heading h2 {
+      margin: 1rem 0 0; max-width: 12ch;
+      font-size: clamp(2.4rem, 5vw, 4.8rem); line-height: 0.98; letter-spacing: -0.065em;
+    }
+    .section-heading p { margin: 0; max-width: 42rem; color: var(--muted); font-size: clamp(1rem, 1.5vw, 1.15rem); }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+      min-height: 3.25rem; padding: 0.75rem 1.2rem; border-radius: 999px;
+      border: 1px solid transparent; text-decoration: none; font-weight: 750; font-size: 0.92rem;
+      transition: transform .2s var(--ease), background .2s, border-color .2s;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { background: var(--lime); color: var(--ink); }
+    .button-primary:hover { background: #d7ff82; }
+    .button-secondary { border-color: var(--line-strong); background: rgba(255,255,255,.035); color: var(--paper); }
+    .button-secondary:hover { border-color: var(--teal); background: rgba(24,183,160,.08); }
+    .arrow { font-family: var(--mono); transition: transform .2s var(--ease); }
+    a:hover .arrow { transform: translate(2px, -2px); }
 
-  /* ---------- Nav ---------- */
-  header {
-    position: sticky; top: 0; z-index: 50;
-    background: color-mix(in srgb, var(--bg-base) 75%, transparent);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border-subtle);
-  }
-  .nav {
-    display: flex; align-items: center; gap: 2rem;
-    height: 4.5rem;
-  }
-  .brand {
-    display: flex; align-items: center; gap: 0.75rem;
-    font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em;
-    color: var(--text-primary);
-  }
-  .brand svg { display: block; }
-  .nav-links {
-    display: flex; gap: 2rem; margin-left: auto; align-items: center;
-    font-size: 0.95rem; font-weight: 500;
-  }
-  .nav-links a { color: var(--text-secondary); }
-  .nav-links a:hover { color: var(--text-primary); }
-  .nav-gh {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    border: 1px solid var(--border-strong); border-radius: 6px;
-    padding: 0.4rem 0.9rem;
-    color: var(--text-primary) !important; font-weight: 600;
-    transition: all 0.2s var(--ease-smooth);
-    background: var(--bg-surface);
-  }
-  .nav-gh:hover { 
-    border-color: var(--teal-muted); 
-    background: var(--bg-surface-hover); 
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  }
+    /* Hero */
+    .hero { position: relative; overflow: hidden; padding: clamp(4.5rem, 8vw, 7.5rem) 0 3rem; }
+    .hero::before {
+      content: ""; position: absolute; width: 55rem; height: 55rem; border-radius: 50%;
+      right: -20rem; top: -24rem; border: 1px solid rgba(24,183,160,.18);
+      box-shadow: 0 0 0 8rem rgba(24,183,160,.018), 0 0 0 16rem rgba(24,183,160,.012);
+      pointer-events: none;
+    }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(29rem, .98fr); gap: clamp(3rem, 6vw, 6.5rem); align-items: center; }
+    .hero-copy { position: relative; z-index: 1; }
+    .release-note {
+      display: inline-flex; align-items: center; gap: .65rem; margin-bottom: 1.7rem;
+      padding: .46rem .72rem .46rem .5rem; border: 1px solid var(--line); border-radius: 999px;
+      color: var(--paper-soft); font-family: var(--mono); font-size: .72rem; text-decoration: none;
+      background: rgba(255,255,255,.025);
+    }
+    .release-note .pulse { width: .55rem; height: .55rem; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 .3rem rgba(200,244,107,.1); }
+    .hero h1 {
+      max-width: 11ch; margin: 0;
+      font-size: clamp(3.25rem, 7vw, 6.9rem); line-height: .9; letter-spacing: -.078em;
+      text-wrap: balance;
+    }
+    .hero h1 span { color: var(--teal); }
+    .hero-lede { max-width: 39rem; margin: 2rem 0 0; color: var(--paper-soft); font-size: clamp(1.06rem, 1.5vw, 1.22rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.25rem; }
+    .hero-proof { display: flex; flex-wrap: wrap; gap: .7rem 1.5rem; margin: 2.2rem 0 0; padding: 0; list-style: none; color: var(--muted); font-family: var(--mono); font-size: .72rem; }
+    .hero-proof li { display: inline-flex; gap: .5rem; align-items: center; }
+    .hero-proof li::before { content: ""; width: .3rem; height: .3rem; border-radius: 50%; background: var(--teal); }
 
-  /* ---------- Hero ---------- */
-  .hero-wrapper {
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-canvas {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.85;
-  }
-  .hero-glow {
-    position: absolute;
-    top: 10%; left: 50%;
-    width: 60vw; height: 60vw;
-    background: radial-gradient(circle, var(--brand-teal-glow) 0%, transparent 60%);
-    transform: translateX(-50%);
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.6;
-    filter: blur(80px);
-  }
-  .hero {
-    position: relative; z-index: 1;
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    gap: clamp(3rem, 6vw, 5rem);
-    align-items: center;
-    padding-block: clamp(5rem, 10vw, 8rem);
-  }
-  .hero-content { max-width: 38rem; }
-  .hero h1 {
-    font-size: clamp(2.75rem, 5vw, 4.5rem);
-    line-height: 1.05;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    text-wrap: balance;
-  }
-  .hero h1 .accent { 
-    color: var(--teal-bright);
-  }
-  .hero p.lede {
-    margin-top: 1.75rem;
-    font-size: clamp(1.1rem, 1.5vw, 1.25rem);
-    color: var(--text-secondary);
-    line-height: 1.7;
-    text-wrap: pretty;
-  }
-  .hero-actions {
-    margin-top: 2.5rem;
-    display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
-  }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
-    font-weight: 600; font-size: 1rem;
-    padding: 0.85rem 1.5rem; border-radius: 6px;
-    transition: all 0.2s var(--ease-smooth);
-    cursor: pointer;
-  }
-  .btn-primary { 
-    background: var(--brand-teal); color: #fff;
-    border: 1px solid oklch(0.55 0.1 190);
-    box-shadow: 0 0 20px color-mix(in srgb, var(--brand-teal) 40%, transparent);
-  }
-  .btn-primary:hover { 
-    background: oklch(0.52 0.09 194); 
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 24px color-mix(in srgb, var(--brand-teal) 60%, transparent);
-  }
-  .btn-ghost { 
-    background: var(--bg-surface);
-    border: 1px solid var(--border-strong); color: var(--text-primary); 
-  }
-  .btn-ghost:hover { 
-    border-color: var(--teal-muted); background: var(--bg-surface-raised); 
-    transform: translateY(-2px);
-    color: #fff;
-  }
-  
-  .hero-cmd-wrap {
-    margin-top: 3rem;
-  }
-  .hero-cmd {
-    display: flex; align-items: center; justify-content: space-between; gap: 2rem;
-    font-family: var(--mono); font-size: 0.9rem;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: 8px;
-    padding: 1rem 1.25rem;
-    color: var(--text-secondary);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    position: relative;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  .hero-cmd::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
-  }
-  .hero-cmd .prompt { color: var(--teal-bright); user-select: none; font-weight: 600; }
-  .hero-meta {
-    margin-top: 1.25rem;
-    font-family: var(--mono);
-    font-size: 0.8rem; color: var(--text-tertiary);
-    text-transform: uppercase; letter-spacing: 0.05em;
-  }
-  .hero-meta span + span::before { content: "·"; margin-inline: 0.75rem; color: var(--border-strong); }
+    .console-wrap { position: relative; z-index: 1; }
+    .console-wrap::before {
+      content: ""; position: absolute; inset: 9% -7% -8% 10%; z-index: -1;
+      border-radius: 50%; background: rgba(24,183,160,.12); filter: blur(70px);
+    }
+    .console {
+      overflow: hidden; border: 1px solid var(--line-strong); border-radius: var(--radius-lg);
+      background: rgba(11,23,21,.94); box-shadow: 0 2.5rem 8rem rgba(0,0,0,.38);
+      transform: perspective(1100px) rotateY(-2.5deg) rotateX(1.5deg);
+    }
+    .console-bar { min-height: 3.2rem; display: flex; align-items: center; gap: .75rem; padding: 0 1rem; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.025); }
+    .window-dots { display: flex; gap: .35rem; }
+    .window-dots i { width: .48rem; height: .48rem; border-radius: 50%; background: var(--line-strong); }
+    .console-title { margin: auto; color: var(--muted); font-family: var(--mono); font-size: .68rem; }
+    .live { display: inline-flex; align-items: center; gap: .42rem; color: var(--lime); font-family: var(--mono); font-size: .65rem; text-transform: uppercase; letter-spacing: .08em; }
+    .live::before { content: ""; width: .42rem; height: .42rem; border-radius: 50%; background: currentColor; animation: breathe 1.8s infinite; }
+    .console-body { padding: clamp(1.15rem, 3vw, 1.75rem); }
+    .scan-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+    .scan-label { margin: 0; color: var(--muted); font-family: var(--mono); font-size: .67rem; letter-spacing: .08em; text-transform: uppercase; }
+    .scan-title { margin: .35rem 0 0; font-size: 1.05rem; font-weight: 700; }
+    .scan-percent { font-size: 2.4rem; line-height: 1; font-weight: 750; letter-spacing: -.06em; color: var(--lime); }
+    .progress { height: .35rem; margin: 1.25rem 0 1.45rem; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.07); }
+    .progress i { display: block; width: 68%; height: 100%; border-radius: inherit; background: var(--teal); box-shadow: 0 0 1rem rgba(24,183,160,.45); }
+    .stages { display: grid; gap: .52rem; }
+    .stage { display: grid; grid-template-columns: 1.4rem 1fr auto; gap: .7rem; align-items: center; padding: .72rem .78rem; border: 1px solid transparent; border-radius: .65rem; color: var(--muted); font-family: var(--mono); font-size: .7rem; }
+    .stage.active { color: var(--paper); border-color: rgba(24,183,160,.23); background: rgba(24,183,160,.065); }
+    .stage-icon { display: grid; place-items: center; width: 1.35rem; height: 1.35rem; border-radius: 50%; background: rgba(255,255,255,.07); font-size: .6rem; }
+    .stage.done .stage-icon { background: var(--teal-deep); color: var(--lime); }
+    .stage.active .stage-icon { background: var(--teal); color: var(--ink); }
+    .stage-status { color: inherit; }
+    .scan-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: .55rem; margin-top: 1.15rem; }
+    .metric { padding: .85rem; border: 1px solid var(--line); border-radius: .7rem; background: rgba(255,255,255,.018); }
+    .metric strong { display: block; font-size: 1.15rem; line-height: 1.1; }
+    .metric span { display: block; margin-top: .35rem; color: var(--muted); font-family: var(--mono); font-size: .6rem; text-transform: uppercase; }
+    .console-foot { display: flex; justify-content: space-between; gap: 1rem; padding: .85rem 1.1rem; border-top: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: .63rem; }
 
-  .hero-fig { min-width: 0; position: relative; }
-  .hero-fig svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4)); }
-  .hero-fig figcaption {
-    margin-top: 1.5rem; text-align: center;
-    font-size: 0.85rem; color: var(--text-tertiary);
-    font-family: var(--mono);
-  }
+    .signal-strip { border-block: 1px solid var(--line); background: rgba(255,255,255,.018); }
+    .signal-row { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; min-height: 7rem; align-items: center; gap: 1rem; }
+    .signal { text-align: center; }
+    .signal strong { display: block; color: var(--paper); font-size: 1rem; }
+    .signal span { color: var(--muted); font-family: var(--mono); font-size: .7rem; }
+    .signal-sep { color: var(--teal); font-family: var(--mono); }
 
-  /* SVG Animations */
-  @keyframes flow { to { stroke-dashoffset: -20; } }
-  .link-line {
-    stroke: var(--teal-bright); stroke-width: 2;
-    stroke-dasharray: 4 16; stroke-linecap: round;
-    animation: flow 1.2s linear infinite;
-    opacity: 0.9;
-  }
-  .link-base { stroke: var(--border-strong); stroke-width: 1.5; }
-  
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .hero-content > * { animation: fadeUp 0.8s var(--ease-smooth) backwards; }
-  .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
-  .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
-  .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
-  .hero-content > *:nth-child(4) { animation-delay: 0.4s; }
-  .hero-fig { animation: fadeUp 1s var(--ease-smooth) 0.3s backwards; }
+    /* Deployment architecture */
+    .reach { background: var(--paper); color: var(--ink); }
+    .reach .eyebrow, .reach .section-heading p { color: #52635b; }
+    .architecture { margin-top: 5rem; }
+    .control-plane {
+      display: grid; grid-template-columns: auto 1fr auto; gap: 1.2rem; align-items: center;
+      padding: clamp(1.4rem, 3vw, 2rem); border-radius: var(--radius-lg);
+      background: var(--ink); color: var(--paper); box-shadow: 0 1.8rem 4rem rgba(7,17,15,.14);
+    }
+    .node-mark { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; border-radius: 1rem; background: var(--teal); color: var(--ink); font-family: var(--mono); font-weight: 700; }
+    .node-copy strong { display: block; font-size: 1.1rem; }
+    .node-copy span { display: block; margin-top: .25rem; color: var(--muted); font-size: .86rem; }
+    .node-state { display: inline-flex; gap: .45rem; align-items: center; color: var(--lime); font-family: var(--mono); font-size: .7rem; }
+    .node-state::before { content: ""; width: .45rem; height: .45rem; border-radius: 50%; background: currentColor; }
+    .route-line { width: 1px; height: 3rem; margin: 0 auto; background: var(--teal-dark); }
+    .endpoint-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .endpoint {
+      min-height: 18rem; display: flex; flex-direction: column; padding: 1.6rem;
+      border: 1px solid #c7d3cc; border-radius: var(--radius-md); background: #f7faf7;
+      transition: transform .25s var(--ease), box-shadow .25s, border-color .25s;
+    }
+    .endpoint:hover { transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 1rem 2.5rem rgba(7,17,15,.09); }
+    .endpoint-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .endpoint-index { font-family: var(--mono); font-size: .68rem; color: #64756c; }
+    .endpoint-tag { padding: .28rem .52rem; border-radius: 999px; background: #e0ece5; color: #43534b; font-family: var(--mono); font-size: .61rem; text-transform: uppercase; }
+    .endpoint h3 { margin: 2.3rem 0 .65rem; font-size: 1.45rem; letter-spacing: -.04em; }
+    .endpoint p { margin: 0; color: #53645b; font-size: .92rem; }
+    .endpoint-spec { margin-top: auto; padding-top: 1.5rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .endpoint-spec span { padding: .3rem .45rem; border: 1px solid #d2ddd6; border-radius: .35rem; color: #53645b; font-family: var(--mono); font-size: .6rem; }
+    .endpoint.recommended { background: #dff5ec; border-color: rgba(8,121,108,.4); }
+    .endpoint.recommended .endpoint-tag { background: var(--teal-dark); color: #fff; }
+    .architecture-note { margin: 1.4rem 0 0; color: #607168; font-size: .82rem; text-align: center; }
 
-  /* ---------- Section scaffolding ---------- */
-  section { padding-block: clamp(4rem, 8vw, 7rem); position: relative; }
-  section::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
-  }
-  .sec-head { max-width: 48rem; margin-inline: auto; text-align: center; }
-  .sec-head h2 {
-    font-size: clamp(2rem, 3.5vw, 2.75rem);
-    font-weight: 700; letter-spacing: -0.02em; line-height: 1.15;
-    text-wrap: balance;
-  }
-  .sec-head p { 
-    margin-top: 1.25rem; color: var(--text-secondary); text-wrap: pretty;
-    font-size: 1.1rem; max-width: 42rem; margin-inline: auto;
-  }
+    /* Capability bento */
+    .capabilities { position: relative; }
+    .bento { display: grid; grid-template-columns: 1.25fr .75fr; gap: 1rem; margin-top: 4.5rem; }
+    .panel { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--ink-soft); }
+    .panel-copy { padding: clamp(1.5rem, 3vw, 2.3rem); }
+    .panel-label { color: var(--teal); font-family: var(--mono); font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; }
+    .panel h3 { max-width: 20ch; margin: .8rem 0 0; font-size: clamp(1.45rem, 2.5vw, 2.15rem); line-height: 1.12; letter-spacing: -.045em; }
+    .panel p { max-width: 34rem; margin: .9rem 0 0; color: var(--muted); font-size: .93rem; }
+    .panel-main { min-height: 31rem; }
+    .asset-table { margin: 1.2rem clamp(1.5rem, 3vw, 2.3rem) 2rem; border: 1px solid var(--line); border-radius: .85rem; overflow: hidden; }
+    .asset-row { display: grid; grid-template-columns: 1.15fr .75fr .6fr auto; gap: .8rem; align-items: center; min-height: 3.4rem; padding: .7rem .9rem; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: .67rem; }
+    .asset-row:last-child { border-bottom: 0; }
+    .asset-row.header { min-height: 2.55rem; background: rgba(255,255,255,.025); color: var(--muted); text-transform: uppercase; font-size: .58rem; }
+    .asset-host strong { display: block; color: var(--paper); font-weight: 500; }
+    .asset-host span { color: var(--muted); }
+    .severity { justify-self: end; padding: .24rem .42rem; border-radius: .3rem; }
+    .severity.high { background: rgba(238,128,109,.13); color: var(--coral); }
+    .severity.medium { background: rgba(240,185,90,.12); color: var(--amber); }
+    .severity.clear { background: rgba(24,183,160,.11); color: var(--teal); }
+    .panel-risk { min-height: 31rem; background: var(--teal-deep); }
+    .risk-orbit { position: relative; width: 11rem; height: 11rem; margin: 1.7rem auto 1rem; display: grid; place-items: center; border-radius: 50%; border: 1px solid rgba(255,255,255,.22); }
+    .risk-orbit::before, .risk-orbit::after { content: ""; position: absolute; border-radius: 50%; border: 1px solid rgba(255,255,255,.09); }
+    .risk-orbit::before { inset: 1rem; }
+    .risk-orbit::after { inset: 2rem; }
+    .risk-score { text-align: center; position: relative; z-index: 1; }
+    .risk-score strong { display: block; font-size: 3rem; line-height: 1; letter-spacing: -.08em; }
+    .risk-score span { color: #b8d5cc; font-family: var(--mono); font-size: .62rem; text-transform: uppercase; }
+    .factor-list { margin: 1.5rem 2rem 2rem; display: grid; gap: .7rem; }
+    .factor { display: grid; grid-template-columns: 1fr 3.5rem; gap: .75rem; align-items: center; color: #d9ece5; font-size: .75rem; }
+    .factor-bar { height: .25rem; border-radius: 999px; background: rgba(255,255,255,.12); overflow: hidden; }
+    .factor-bar i { display: block; height: 100%; background: var(--lime); }
+    .factor-82 { width: 82%; }
+    .factor-100 { width: 100%; }
+    .factor-64 { width: 64%; }
+    .panel-row { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3,1fr); }
+    .mini-panel { min-height: 17rem; padding: 1.8rem; border-right: 1px solid var(--line); }
+    .mini-panel:last-child { border-right: 0; }
+    .mini-panel h3 { font-size: 1.25rem; }
+    .mini-stat { margin-top: 2.2rem; font-size: 3.2rem; line-height: 1; font-weight: 700; letter-spacing: -.075em; }
+    .mini-stat small { display: block; margin-top: .6rem; color: var(--muted); font-family: var(--mono); font-size: .63rem; letter-spacing: .05em; text-transform: uppercase; }
+    .report-stack { position: relative; height: 5.5rem; margin-top: 2rem; }
+    .report-sheet { position: absolute; width: 67%; height: 4.7rem; border: 1px solid var(--line-strong); border-radius: .45rem; background: var(--ink-raised); }
+    .report-sheet:nth-child(1) { left: 0; top: .75rem; }
+    .report-sheet:nth-child(2) { left: 13%; top: .38rem; }
+    .report-sheet:nth-child(3) { left: 26%; top: 0; padding: .75rem; }
+    .report-sheet:nth-child(3)::before, .report-sheet:nth-child(3)::after { content: ""; display: block; height: .22rem; border-radius: 2px; background: var(--line-strong); margin-bottom: .45rem; }
+    .report-sheet:nth-child(3)::after { width: 55%; background: var(--teal); }
+    .identity-list { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 2rem; }
+    .identity-list span { padding: .42rem .55rem; border: 1px solid var(--line); border-radius: .4rem; color: var(--paper-soft); font-family: var(--mono); font-size: .61rem; }
 
-  /* ---------- Features (Cards) ---------- */
-  .feat-grid { 
-    margin-top: 4rem; 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
-    gap: 1.5rem; 
-  }
-  .feat-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: 12px;
-    padding: 2.25rem;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s var(--ease-smooth);
-    display: flex; flex-direction: column; gap: 1rem;
-  }
-  .feat-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--brand-teal), transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .feat-card:hover {
-    background: var(--bg-surface-hover);
-    border-color: var(--border-strong);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-  }
-  .feat-card:hover::before { opacity: 1; }
-  .feat-card .num {
-    font-family: var(--mono); font-size: 0.85rem; font-weight: 600;
-    color: var(--teal-bright);
-    background: color-mix(in srgb, var(--brand-teal) 20%, transparent);
-    padding: 0.3rem 0.6rem; border-radius: 4px;
-    align-self: flex-start;
-  }
-  .feat-card h3 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); }
-  .feat-card p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.6; }
+    /* Workflow */
+    .workflow { background: var(--teal-dark); color: #f4fbf7; }
+    .workflow .eyebrow { color: #cbe4da; }
+    .workflow .eyebrow::before { background: var(--lime); }
+    .workflow-head { display: grid; grid-template-columns: 1fr .65fr; gap: 4rem; align-items: end; }
+    .workflow h2 { max-width: 10ch; margin: 1rem 0 0; font-size: clamp(2.7rem, 5.5vw, 5.4rem); line-height: .96; letter-spacing: -.067em; }
+    .workflow-head p { margin: 0; color: #c4ddd4; }
+    .workflow-grid { display: grid; grid-template-columns: repeat(5,1fr); margin-top: 5rem; border-block: 1px solid rgba(255,255,255,.2); }
+    .workflow-step { position: relative; min-height: 17rem; padding: 1.5rem 1.2rem 1.5rem 0; border-right: 1px solid rgba(255,255,255,.2); }
+    .workflow-step + .workflow-step { padding-left: 1.2rem; }
+    .workflow-step:last-child { border-right: 0; }
+    .workflow-step .step-number { color: var(--lime); font-family: var(--mono); font-size: .7rem; }
+    .workflow-step h3 { margin: 3.5rem 0 .75rem; font-size: 1.15rem; }
+    .workflow-step p { margin: 0; color: #c4ddd4; font-size: .82rem; }
 
-  /* ---------- Hardware spec table ---------- */
-  .deploy-wrap { margin-top: 4rem; }
-  .spec-container {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: 12px;
-    overflow-x: auto;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  }
-  table.spec {
-    width: 100%; border-collapse: collapse;
-    font-size: 1rem;
-  }
-  .spec th, .spec td {
-    text-align: left; padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid var(--border-faint);
-  }
-  .spec tr:last-child td { border-bottom: none; }
-  .spec thead th {
-    font-family: var(--mono); font-size: 0.8rem; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--text-tertiary);
-    background: var(--bg-surface-raised);
-    border-bottom: 1px solid var(--border-subtle);
-  }
-  .spec tbody tr { transition: background 0.2s ease; }
-  .spec tbody tr:hover { background: color-mix(in srgb, var(--bg-surface-hover) 50%, transparent); }
-  .spec td.role { font-weight: 700; white-space: nowrap; color: var(--text-primary); }
-  .spec td .sub { display: block; font-family: var(--mono); font-size: 0.8rem; color: var(--teal-bright); font-weight: 400; margin-top: 0.25rem; }
-  .spec td.mono { font-family: var(--mono); font-size: 0.9rem; color: var(--text-secondary); white-space: nowrap; }
-  .spec td.ex { color: var(--text-secondary); line-height: 1.5; font-size: 0.95rem; }
-  .hw-note { 
-    margin-top: 2rem; color: var(--text-tertiary); font-size: 0.95rem; max-width: 48rem; margin-inline: auto; text-align: center;
-    background: var(--bg-surface); padding: 1rem 1.5rem; border-radius: 8px; border: 1px solid var(--border-faint);
-  }
-  .hw-note code { font-family: var(--mono); font-size: 0.9em; color: var(--text-secondary); background: var(--bg-base); padding: 0.1rem 0.3rem; border-radius: 3px; }
+    /* Trust */
+    .trust-grid { display: grid; grid-template-columns: .82fr 1.18fr; gap: clamp(3rem, 8vw, 8rem); }
+    .trust-copy h2 { max-width: 9ch; margin: 1rem 0 1.5rem; font-size: clamp(2.7rem, 5vw, 5rem); line-height: .95; letter-spacing: -.065em; }
+    .trust-copy p { color: var(--muted); }
+    .trust-list { border-top: 1px solid var(--line); }
+    .trust-item { display: grid; grid-template-columns: 2rem 1fr; gap: 1rem; padding: 1.45rem 0; border-bottom: 1px solid var(--line); }
+    .trust-check { color: var(--lime); font-family: var(--mono); }
+    .trust-item strong { display: block; font-size: 1rem; }
+    .trust-item span { display: block; margin-top: .35rem; color: var(--muted); font-size: .87rem; }
 
-  /* ---------- Quickstart (Teal Drench) ---------- */
-  .drench {
-    background: var(--bg-surface);
-    border-top: 1px solid var(--border-subtle);
-    border-bottom: 1px solid var(--border-subtle);
-    position: relative;
-    overflow: hidden;
-  }
-  .drench::before {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(circle at center, color-mix(in srgb, var(--brand-teal) 15%, transparent) 0%, transparent 100%);
-    pointer-events: none;
-  }
-  .drench section { border: none; }
-  .steps {
-    margin-top: 4rem;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
-    gap: 2rem;
-  }
-  .step { 
-    min-width: 0; 
-    background: var(--bg-base);
-    border: 1px solid var(--border-faint);
-    border-radius: 12px;
-    padding: 1.75rem;
-    position: relative;
-  }
-  .step::after {
-    content: ''; position: absolute; top: -1px; left: 10%; right: 10%; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border-teal), transparent);
-  }
-  .step .step-label {
-    font-family: var(--mono); font-size: 0.8rem; font-weight: 600;
-    color: var(--teal-bright);
-    display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;
-    text-transform: uppercase; letter-spacing: 0.05em;
-  }
-  .step h3 { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1.25rem; }
-  .step-copy { color: var(--text-secondary); margin: -0.4rem 0 1.25rem; font-size: 0.95rem; }
-  .code-block { position: relative; }
-  .copy-btn {
-    position: absolute; top: 0.5rem; right: 0.5rem;
-    background: var(--bg-surface-raised); border: 1px solid var(--border-strong);
-    color: var(--text-secondary); border-radius: 6px; padding: 0.4rem; cursor: pointer;
-    opacity: 0; transition: all 0.2s var(--ease-smooth); display: flex; align-items: center; justify-content: center;
-  }
-  .code-block:hover .copy-btn, .hero-cmd:hover .copy-btn { opacity: 1; }
-  .copy-btn:hover { background: var(--teal-muted); color: #fff; transform: translateY(-1px); }
-  .copy-btn:focus-visible { opacity: 1; outline: 2px solid var(--teal-bright); outline-offset: 2px; }
-  .copy-btn.copied { background: #34d399; color: #000; border-color: #34d399; }
-  .hero-cmd .hero-cmd-lines { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; overflow-x: auto; text-align: left; }
-  .hero-cmd .copy-btn { position: static; opacity: 0; margin: -0.25rem -0.25rem -0.25rem 0; }
-  .step pre {
-    background: #09090b; /* Very dark for terminal */
-    border: 1px solid var(--border-subtle);
-    border-radius: 8px;
-    padding: 1.25rem;
-    font-family: var(--mono); font-size: 0.85rem; line-height: 1.7;
-    color: var(--text-secondary);
-    overflow-x: auto;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
-  }
-  .step pre .c { color: var(--text-tertiary); }
-  .step pre .p { color: var(--teal-bright); user-select: none; font-weight: 600; }
-  .step pre .ok { color: #34d399; }
-  .drench-foot { margin-top: 3rem; color: var(--text-secondary); font-size: 1rem; text-align: center; }
-  .drench-foot a { color: var(--text-primary); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
-  .drench-foot a:hover { color: var(--teal-bright); }
+    /* Quickstart */
+    .quickstart { padding-bottom: clamp(5rem, 10vw, 9rem); }
+    .quick-card { position: relative; overflow: hidden; border-radius: 2rem; background: var(--paper); color: var(--ink); }
+    .quick-card::after { content: "V"; position: absolute; right: -1rem; bottom: -8rem; color: rgba(7,17,15,.035); font-size: 28rem; line-height: 1; font-weight: 800; pointer-events: none; }
+    .quick-inner { position: relative; z-index: 1; display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(2rem, 6vw, 5rem); padding: clamp(2rem, 6vw, 5rem); }
+    .quick-copy h2 { max-width: 9ch; margin: .9rem 0 1.2rem; font-size: clamp(2.5rem, 5vw, 4.7rem); line-height: .95; letter-spacing: -.065em; }
+    .quick-copy p { color: #52635a; }
+    .pre-release { display: inline-flex; padding: .38rem .55rem; border-radius: .35rem; background: #dbe7df; color: #405149; font-family: var(--mono); font-size: .63rem; }
+    .terminal { align-self: center; overflow: hidden; border-radius: 1rem; background: var(--ink); color: var(--paper-soft); box-shadow: 0 1.5rem 4rem rgba(7,17,15,.18); }
+    .terminal-bar { display: flex; align-items: center; justify-content: space-between; min-height: 3rem; padding: 0 1rem; border-bottom: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: .65rem; }
+    .copy-button { border: 1px solid var(--line); border-radius: .4rem; padding: .35rem .55rem; background: transparent; color: var(--paper-soft); cursor: pointer; font-family: var(--mono); font-size: .61rem; }
+    .copy-button:hover { border-color: var(--teal); color: #fff; }
+    pre { margin: 0; padding: 1.35rem; overflow-x: auto; font-size: .72rem; line-height: 1.85; }
+    pre .prompt { color: var(--lime); }
+    pre .comment { color: #698078; }
+    .next-steps { display: grid; grid-template-columns: repeat(3,1fr); gap: .65rem; margin-top: 1rem; }
+    .next-step { padding: .8rem; border: 1px solid var(--line); border-radius: .55rem; color: var(--muted); font-family: var(--mono); font-size: .62rem; }
+    .next-step strong { display: block; margin-bottom: .3rem; color: var(--paper); }
+    .quick-note { margin-top: 1rem; color: #5f7168; font-size: .76rem; }
+    .quick-note a { font-weight: 700; }
 
-  /* ---------- Open source ---------- */
-  .oss {
-    display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    gap: clamp(3rem, 6vw, 6rem); align-items: center;
-  }
-  .oss-content .sec-head { text-align: left; margin: 0; }
-  .oss-facts { 
-    display: grid; gap: 0; 
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: 12px;
-    padding: 1rem 2rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  }
-  .oss-fact {
-    display: flex; justify-content: space-between; align-items: center; gap: 1.5rem;
-    padding-block: 1.25rem;
-    border-bottom: 1px solid var(--border-faint);
-    font-size: 1rem;
-  }
-  .oss-fact:last-child { border-bottom: none; }
-  .oss-fact dt { color: var(--text-secondary); font-weight: 500; }
-  .oss-fact dd { font-family: var(--mono); font-size: 0.9rem; color: var(--text-primary); text-align: right; }
+    /* Final CTA / footer */
+    .final-cta { padding: clamp(4rem, 8vw, 7rem) 0; border-top: 1px solid var(--line); }
+    .final-grid { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; }
+    .final-cta h2 { max-width: 16ch; margin: 0; font-size: clamp(2.35rem, 5vw, 4.9rem); line-height: .97; letter-spacing: -.065em; }
+    .final-cta p { max-width: 38rem; margin: 1.2rem 0 0; color: var(--muted); }
+    .final-actions { display: flex; flex-direction: column; gap: .7rem; min-width: 13rem; }
+    footer { padding: 2.2rem 0; border-top: 1px solid var(--line); color: var(--muted); }
+    .footer-grid { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; }
+    .footer-brand { display: flex; align-items: center; gap: 1rem; }
+    .footer-brand img { width: 2.4rem; height: 2.4rem; }
+    .footer-brand strong { display: block; color: var(--paper); }
+    .footer-brand span { display: block; font-size: .73rem; }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 1.3rem; }
+    .footer-links a { font-size: .78rem; text-decoration: none; }
+    .footer-links a:hover { color: var(--paper); }
+    .legal { grid-column: 1 / -1; margin: .4rem 0 0; padding-top: 1.2rem; border-top: 1px solid var(--line); font-size: .69rem; }
 
-  /* ---------- Authorized-use note ---------- */
-  .notice {
-    margin-top: 3rem;
-    display: flex; gap: 1rem; align-items: flex-start;
-    background: color-mix(in srgb, var(--brand-teal) 5%, var(--bg-surface));
-    border: 1px solid var(--border-teal);
-    border-radius: 8px;
-    padding: 1.25rem 1.5rem;
-    font-size: 0.95rem; color: var(--text-secondary);
-    max-width: 48rem;
-    line-height: 1.6;
-  }
-  .notice svg { flex: none; margin-top: 0.1rem; }
-  .notice strong { color: var(--text-primary); font-weight: 600; }
+    @keyframes breathe { 50% { opacity: .35; box-shadow: 0 0 0 .35rem rgba(200,244,107,.08); } }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
 
-  /* ---------- Footer ---------- */
-  footer {
-    border-top: 1px solid var(--border-subtle);
-    padding-block: 3rem;
-    font-size: 0.95rem; color: var(--text-tertiary);
-    background: var(--bg-base);
-  }
-  .foot { display: flex; flex-wrap: wrap; gap: 1.5rem 3rem; align-items: center; }
-  .foot .brand { font-size: 1.1rem; }
-  .foot-links { display: flex; gap: 2rem; margin-left: auto; }
-  .foot-links a { color: var(--text-secondary); font-weight: 500; }
-  .foot-links a:hover { color: var(--text-primary); }
-  .foot-legal { flex-basis: 100%; color: var(--text-tertiary); font-size: 0.85rem; margin-top: 1rem; border-top: 1px solid var(--border-faint); padding-top: 1.5rem; }
+    @media (max-width: 920px) {
+      .hero-grid, .section-heading, .workflow-head, .trust-grid, .quick-inner { grid-template-columns: 1fr; }
+      .hero-grid { gap: 4rem; }
+      .hero h1 { max-width: 10ch; }
+      .console { transform: none; max-width: 42rem; }
+      .section-heading { gap: 1.5rem; }
+      .section-heading h2 { max-width: 14ch; }
+      .endpoint-grid { grid-template-columns: 1fr; }
+      .endpoint { min-height: 14rem; }
+      .bento { grid-template-columns: 1fr; }
+      .panel-row { grid-template-columns: 1fr 1fr; }
+      .mini-panel:nth-child(2) { border-right: 0; }
+      .mini-panel:last-child { grid-column: 1 / -1; border-top: 1px solid var(--line); }
+      .workflow-grid { grid-template-columns: 1fr 1fr; }
+      .workflow-step:nth-child(2) { border-right: 0; }
+      .workflow-step:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,.2); }
+      .workflow-step:last-child { grid-column: 1 / -1; }
+      .quick-inner { gap: 3rem; }
+    }
 
-  /* ---------- Responsive ---------- */
-  @media (max-width: 64rem) {
-    .hero { grid-template-columns: 1fr; text-align: center; }
-    .hero-content { margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
-    .hero p.lede { margin-inline: auto; }
-    .hero-actions { justify-content: center; }
-    .hero-fig { max-width: 32rem; margin: 0 auto; }
-    
-    .oss { grid-template-columns: 1fr; }
-    .oss-content .sec-head { text-align: center; }
-    .oss-content .hero-actions { justify-content: center; }
-    .notice { margin-inline: auto; text-align: left; }
-    
-    .nav-links { display: flex; gap: 0; }
-    .nav-links > a:not(.nav-gh) { display: none; }
-  }
+    @media (max-width: 720px) {
+      .shell { width: min(100% - 1.35rem, 1180px); }
+      .nav { min-height: 4.2rem; }
+      .nav-toggle { display: block; }
+      .nav-links {
+        position: absolute; top: calc(100% + 1px); left: 0; right: 0; margin: 0;
+        display: none; flex-direction: column; align-items: stretch; gap: 0;
+        padding: .7rem; border-bottom: 1px solid var(--line); background: rgba(7,17,15,.98);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links > a:not(.nav-cta) { padding: .85rem; }
+      .nav-cta { margin-top: .4rem; }
+      .hero { padding-top: 3.5rem; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: clamp(3rem, 15vw, 5rem); }
+      .console-title { display: none; }
+      .scan-metrics { grid-template-columns: 1fr; }
+      .signal-row { grid-template-columns: 1fr; padding-block: 1.6rem; }
+      .signal-sep { transform: rotate(90deg); }
+      .control-plane { grid-template-columns: auto 1fr; }
+      .node-state { grid-column: 2; }
+      .asset-row { grid-template-columns: 1fr auto; }
+      .asset-row > :nth-child(2), .asset-row > :nth-child(3) { display: none; }
+      .panel-row { grid-template-columns: 1fr; }
+      .mini-panel { border-right: 0; border-bottom: 1px solid var(--line); }
+      .mini-panel:last-child { grid-column: auto; border-bottom: 0; border-top: 0; }
+      .workflow-grid { grid-template-columns: 1fr; }
+      .workflow-step, .workflow-step + .workflow-step { min-height: auto; padding: 1.5rem 0; border-right: 0; border-top: 1px solid rgba(255,255,255,.2); }
+      .workflow-step:first-child { border-top: 0; }
+      .workflow-step:last-child { grid-column: auto; }
+      .workflow-step h3 { margin-top: 1.7rem; }
+      .next-steps { grid-template-columns: 1fr; }
+      .final-grid, .footer-grid { grid-template-columns: 1fr; }
+      .final-actions { min-width: 0; }
+      .footer-links { justify-content: flex-start; }
+    }
 
-  @media (max-width: 36rem) {
-    .wrap { padding-inline: 1.1rem; }
-    .hero-cmd { gap: 0.6rem; padding: 0.85rem; font-size: 0.78rem; }
-    .feat-card, .step { padding: 1.4rem; }
-    .spec th, .spec td { padding: 1rem; }
-    .foot-links { margin-left: 0; flex-basis: 100%; gap: 1.25rem; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .link-line { animation: none; stroke-dasharray: none; }
-    .hero-content > *, .hero-fig { animation: none; }
-    html { scroll-behavior: auto; }
-    .feat-card:hover { transform: none; }
-  }
-</style>
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
 </head>
 <body>
-
-<header>
-  <nav class="nav wrap" aria-label="Main">
-    <a class="brand" href="#" aria-label="Vulna home">
-      <!-- Vulna shield mark -->
-      <svg width="26" height="24" viewBox="0 0 142 134" fill="none" aria-hidden="true">
-        <rect x="0"  y="52" width="9"  height="9" fill="#006666"/>
-        <rect x="14" y="38" width="7"  height="7" fill="#00A3A3"/>
-        <rect x="10" y="66" width="12" height="8" fill="#013B3B"/>
-        <rect x="26" y="54" width="8"  height="8" fill="#00A3A3"/>
-        <rect x="22" y="24" width="6"  height="6" fill="#006666"/>
-        <rect x="30" y="80" width="10" height="7" fill="#00A3A3"/>
-        <rect x="18" y="92" width="7"  height="7" fill="#006666"/>
-        <rect x="34" y="38" width="9"  height="9" fill="#013B3B"/>
-        <rect x="40" y="64" width="8"  height="8" fill="#006666"/>
-        <rect x="44" y="88" width="7"  height="7" fill="#00A3A3"/>
-        <rect x="36" y="16" width="7"  height="7" fill="#00A3A3"/>
-        <rect x="2"  y="30" width="10" height="4" fill="#00A3A3"/>
-        <rect x="6"  y="82" width="14" height="4" fill="#006666"/>
-        <g transform="translate(46,0)">
-          <path d="M42 0 L0 16 L0 58 C0 92 20 114 42 124 L42 0 Z" fill="#013B3B"/>
-          <path d="M42 0 L84 16 L84 58 C84 92 64 114 42 124 L42 0 Z" fill="#008080"/>
-          <path d="M14 34 L34 34 L42 62 L50 34 L70 34 L50 96 L34 96 Z" fill="#FFFFFF"/>
-          <path d="M42 62 L50 34 L70 34 L50 96 L42 96 Z" fill="#013B3B" opacity="0.28"/>
-        </g>
-      </svg>
-      Vulna
-    </a>
-    <div class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#deploy">Deploy</a>
-      <a href="#quickstart">Quickstart</a>
-      <a href="#opensource">Open source</a>
-      <a class="nav-gh" href="https://github.com/codebooker/vulna">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-        GitHub
+  <header class="site-header">
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Vulna home">
+        <img src="vulna-mark.png" alt="">
+        <span class="brand-word">Vulna<span>.</span></span>
       </a>
-    </div>
-  </nav>
-</header>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">
+        <span></span><span></span>
+      </button>
+      <div class="nav-links" id="nav-links">
+        <a href="#reach">Deployment</a>
+        <a href="#platform">Platform</a>
+        <a href="#workflow">How it works</a>
+        <a href="#quickstart">Quickstart</a>
+        <a class="nav-cta" href="https://github.com/codebooker/vulna">View on GitHub <span class="arrow">↗</span></a>
+      </div>
+    </nav>
+  </header>
 
-<main>
-  <!-- ================= Hero ================= -->
-  <div class="hero-wrapper">
-    <canvas id="hero-canvas" class="hero-canvas"></canvas>
-    <div class="hero-glow"></div>
-    <div class="hero wrap">
-      <div class="hero-content">
-        <h1>One appliance. Every site. <span class="accent">Every finding under your control.</span></h1>
-        <p class="lede">Vulna is a self-hosted security assessment and vulnerability management platform. Scan networks directly from the appliance, run scanners on a remote VulnaScout, or reach a constrained site through VulnaRelay. No vendor cloud or license key is required.</p>
-        
-        <div class="hero-cmd-wrap">
-          <div class="hero-cmd">
-            <div class="hero-cmd-lines">
-              <div><span class="prompt">~</span> git clone https://github.com/codebooker/vulna.git</div>
-              <div><span class="prompt">~</span> cd vulna &amp;&amp; cp .env.example .env</div>
-            </div>
-            <button class="copy-btn" data-copy="git clone https://github.com/codebooker/vulna.git&#10;cd vulna &amp;&amp; cp .env.example .env" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-          </div>
-        </div>
-
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="https://github.com/codebooker/vulna">
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-            View on GitHub
+  <main id="top">
+    <section class="hero">
+      <div class="hero-grid shell">
+        <div class="hero-copy reveal">
+          <a class="release-note" href="https://github.com/codebooker/vulna">
+            <span class="pulse" aria-hidden="true"></span>
+            Open source · self-hosted · pre-1.0
           </a>
-          <a class="btn btn-ghost" href="https://github.com/codebooker/vulna/blob/main/docs/quickstart.md">Read the quickstart</a>
+          <h1>Know what is exposed. <span>Control what happens next.</span></h1>
+          <p class="hero-lede">Vulna turns proven security scanners into one governed workflow for discovery, findings, risk, remediation, and reporting. Your control plane. Your networks. Your evidence.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="https://github.com/codebooker/vulna">Explore the project <span class="arrow">↗</span></a>
+            <a class="button button-secondary" href="#quickstart">Run it from source <span aria-hidden="true">↓</span></a>
+          </div>
+          <ul class="hero-proof" aria-label="Product principles">
+            <li>AGPL-3.0</li>
+            <li>No SaaS dependency</li>
+            <li>Authorized scope only</li>
+          </ul>
         </div>
-        
-        <p class="hero-meta">
-          <span>AGPL-3.0</span><span>Self-hosted</span><span>Linux ARM &amp; x86</span>
-        </p>
-      </div>
 
-      <figure class="hero-fig">
-        <!-- Topology: central appliance with local Scout, remote Scouts, and Relay -->
-        <svg viewBox="0 0 420 380" role="img" aria-label="Network diagram: a central Vulna appliance scans its local network, coordinates VulnaScout endpoints, and sends centrally executed scans through VulnaRelay">
-          <defs>
-            <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#006666" stop-opacity="0.5"/>
-              <stop offset="100%" stop-color="#006666" stop-opacity="0"/>
-            </radialGradient>
-            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.4"/>
-            </filter>
-          </defs>
-
-          <!-- glow behind hub -->
-          <circle cx="210" cy="190" r="140" fill="url(#hubGlow)"/>
-
-          <!-- links -->
-          <g>
-            <line class="link-base" x1="210" y1="190" x2="80"  y2="60"/>
-            <line class="link-line" x1="210" y1="190" x2="80"  y2="60"/>
-            
-            <line class="link-base" x1="210" y1="190" x2="345" y2="70"/>
-            <line class="link-line" x1="210" y1="190" x2="345" y2="70"/>
-            
-            <line class="link-base" x1="210" y1="190" x2="70"  y2="315"/>
-            <line class="link-line" x1="210" y1="190" x2="70"  y2="315"/>
-            
-            <line class="link-base" x1="210" y1="190" x2="350" y2="320"/>
-            <line class="link-line" x1="210" y1="190" x2="350" y2="320"/>
-          </g>
-
-          <!-- central appliance -->
-          <g filter="url(#shadow)">
-            <rect x="140" y="150" width="140" height="80" rx="12" fill="oklch(0.18 0.02 205)" stroke="#008080" stroke-width="1.5"/>
-            <circle cx="160" cy="170" r="4" fill="#2dd4bf"/>
-            <rect x="156" y="196" width="108" height="6" rx="3" fill="oklch(0.3 0.03 200)"/>
-            <rect x="156" y="210" width="70" height="6" rx="3" fill="oklch(0.3 0.03 200)"/>
-            <text x="176" y="174" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#fff">appliance</text>
-          </g>
-
-          <!-- deployment endpoints -->
-          <g font-family="JetBrains Mono, monospace" font-size="11" font-weight="600" fill="oklch(0.8 0.02 195)">
-            <g filter="url(#shadow)">
-              <circle cx="80" cy="60" r="28" fill="oklch(0.15 0.02 205)" stroke="#006666" stroke-width="2"/>
-              <circle cx="80" cy="50" r="3.5" fill="#2dd4bf"/>
-              <text x="80" y="72" text-anchor="middle">local</text>
-            </g>
-            <g filter="url(#shadow)">
-              <circle cx="345" cy="70" r="28" fill="oklch(0.15 0.02 205)" stroke="#006666" stroke-width="2"/>
-              <circle cx="345" cy="60" r="3.5" fill="#2dd4bf"/>
-              <text x="345" y="82" text-anchor="middle">scout</text>
-            </g>
-            <g filter="url(#shadow)">
-              <circle cx="70" cy="315" r="28" fill="oklch(0.15 0.02 205)" stroke="#006666" stroke-width="2"/>
-              <circle cx="70" cy="305" r="3.5" fill="#2dd4bf"/>
-              <text x="70" y="327" text-anchor="middle">relay</text>
-            </g>
-            <g filter="url(#shadow)">
-              <circle cx="350" cy="320" r="28" fill="oklch(0.15 0.02 205)" stroke="#006666" stroke-width="2"/>
-              <circle cx="350" cy="310" r="3.5" fill="#2dd4bf"/>
-              <text x="350" y="332" text-anchor="middle">scout</text>
-            </g>
-          </g>
-        </svg>
-        <figcaption>local Scout · remote Scouts · scope-controlled Relays</figcaption>
-      </figure>
-    </div>
-  </div>
-
-  <!-- ================= Features ================= -->
-  <section id="features">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>From first discovery to verified remediation.</h2>
-        <p>Vulna coordinates proven scanners, enforces approved scope, builds a durable asset inventory, explains risk, and gives teams a clear path from finding to report to verified fix.</p>
-      </div>
-      
-      <div class="feat-grid">
-        <div class="feat-card">
-          <span class="num">01</span>
-          <h3>Assessment from discovery to web</h3>
-          <p>Drive nmap, Nuclei, testssl.sh, and OWASP ZAP through signed workflows. Run service discovery, vulnerability and TLS checks, gated web assessment, and explicitly approved controlled pentest sessions.</p>
-        </div>
-        <div class="feat-card">
-          <span class="num">02</span>
-          <h3>Three ways to reach a network</h3>
-          <p>Use the appliance's bundled local Scout, install a remote VulnaScout where scanners should run at the edge, or use a scanner-free VulnaRelay to tunnel approved traffic from central scanners.</p>
-        </div>
-        <div class="feat-card">
-          <span class="num">03</span>
-          <h3>Inventory with real context</h3>
-          <p>Track assets, services, observations, and material changes. Add read-only SSH or WinRM software inventory, passive source connectors, tags, dynamic groups, ownership, and reversible reconciliation.</p>
-        </div>
-        <div class="feat-card">
-          <span class="num">04</span>
-          <h3>Explainable risk, not a mystery score</h3>
-          <p>Enrich findings with NVD, CISA KEV, EPSS, and advisories. Versioned risk profiles retain normalized inputs, factor contributions, decisions, acceptance expiries, and score history.</p>
-        </div>
-        <div class="feat-card">
-          <span class="num">05</span>
-          <h3>From finding to verified fix</h3>
-          <p>Build remediation units, assign owners, apply policy-driven SLAs, synchronize Jira, GitHub, GitLab, GLPI, or a generic ticket system, and close the loop with a targeted verification scan.</p>
-        </div>
-        <div class="feat-card">
-          <span class="num">06</span>
-          <h3>Reports for every audience</h3>
-          <p>Generate executive, technical, pentest, or full-spectrum PDFs plus permission-scoped CSV and JSON exports. Reuse templates, filter by site or asset group, and schedule recurring report definitions.</p>
-        </div>
-        <div class="feat-card">
-          <span class="num">07</span>
-          <h3>Identity and accountability</h3>
-          <p>Use granular RBAC, scoped grants, service accounts, MFA, WebAuthn, OIDC or SAML SSO, and SCIM provisioning. Step-up checks and the audit log protect and attribute sensitive actions.</p>
-        </div>
-        <div class="feat-card">
-          <span class="num">08</span>
-          <h3>Operate it on your terms</h3>
-          <p>Back up, restore, update, roll back, monitor, and troubleshoot the appliance yourself. Offline workflows are supported, integrations are opt-in, and optional aggregate telemetry is off by default.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= Deploy ================= -->
-  <section id="deploy">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Start with one appliance. Extend only when you need to.</h2>
-        <p>The appliance includes a local Scout, so it can assess any approved network it can already reach. Add a remote endpoint only for another location, VLAN, DMZ, or routing boundary.</p>
-      </div>
-      
-      <div class="deploy-wrap">
-        <div class="spec-container">
-          <table class="spec">
-            <thead>
-              <tr><th scope="col">Deployment</th><th scope="col">Where scanners run</th><th scope="col">Endpoint needs</th><th scope="col">Choose it when</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="role">Central appliance<span class="sub">bundled local Scout</span></td>
-                <td class="ex">On the appliance</td>
-                <td class="mono">2 CPU · 4 GB RAM · 20 GB</td>
-                <td class="ex">The appliance can route to the network. No separate endpoint is required.</td>
-              </tr>
-              <tr>
-                <td class="role">VulnaScout<span class="sub">recommended remote option</span></td>
-                <td class="ex">On the remote Scout</td>
-                <td class="mono">Linux amd64/arm64 · Nmap</td>
-                <td class="ex">A site can run scanners locally and enforce signed scope at the edge.</td>
-              </tr>
-              <tr>
-                <td class="role">VulnaRelay<span class="sub">advanced, opt-in</span></td>
-                <td class="ex">On the appliance, through the tunnel</td>
-                <td class="mono">Linux · root · WireGuard · IPv4</td>
-                <td class="ex">The remote host should be scanner-free and provide only a kill-switched, scope-controlled egress path.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="hw-note">Native appliance, Scout, and Relay services currently require Linux on <code>amd64</code> or <code>arm64</code>. Windows and macOS are supported as browser clients and assessment targets, but not yet as native endpoint-service hosts. Windows software inventory runs remotely through WinRM from an eligible Linux Scout.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= Quickstart (Drench) ================= -->
-  <div class="drench" id="quickstart">
-    <section>
-      <div class="wrap">
-        <div class="sec-head">
-          <h2>From source checkout to first safe scan.</h2>
-          <p>Vulna is still pre-1.0. Evaluate the current code from a trusted checkout today; when signed releases are published, pin and verify the exact release tag described in the installation guide.</p>
-        </div>
-        
-        <div class="steps">
-          <div class="step">
-            <span class="step-label">step 1 / appliance</span>
-            <h3>Start the central appliance</h3>
-            <p class="step-copy">Review <code>.env</code> and set its required secrets before starting the stack.</p>
-            <div class="code-block">
-              <button class="copy-btn" data-copy="git clone https://github.com/codebooker/vulna.git&#10;cd vulna&#10;cp .env.example .env&#10;docker compose -f docker-compose.yml -f docker-compose.single-host.yml up -d --build" aria-label="Copy code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-              <pre><span class="p">$</span> git clone https://github.com/codebooker/vulna.git
-<span class="p">$</span> cd vulna
-<span class="p">$</span> cp .env.example .env
-<span class="c"># review and configure .env, then:</span>
-<span class="p">$</span> docker compose -f docker-compose.yml \
-    -f docker-compose.single-host.yml up -d --build</pre>
+        <div class="console-wrap reveal" role="img" aria-label="Illustration of an active Vulna scan">
+          <div class="console">
+            <div class="console-bar">
+              <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+              <span class="console-title">VulnaDash / Operations / Scan 04F2</span>
+              <span class="live">live</span>
             </div>
-          </div>
-          <div class="step">
-            <span class="step-label">step 2 / first run</span>
-            <h3>Approve a small private scope</h3>
-            <p class="step-copy">Sign in, save the recovery codes, and finish the guided setup. The bundled local Scout starts unable to scan anything.</p>
-            <pre><span class="c">First-run wizard</span>
-1. Choose your deployment profile
-2. Add an owned private range
-3. Confirm local Scout: <span class="ok">connected</span></pre>
-          </div>
-          <div class="step">
-            <span class="step-label">step 3 / assessment</span>
-            <h3>Run, review, and report</h3>
-            <p class="step-copy">Use the non-intrusive preset first. Watch every stage, inspect evidence, and generate a permission-scoped artifact.</p>
-            <pre>Preset: <span class="ok">Standard Security Check</span>
-Operations → Scans
-Operations → Findings
-Management → Reports</pre>
-          </div>
-        </div>
-        
-        <div class="steps" style="margin-top: 2rem;">
-          <div class="step">
-            <span class="step-label">optional / remote Scout</span>
-            <h3>Run scanners at another site</h3>
-            <p class="step-copy">Choose a VulnaScout for most branch offices, client sites, and segmented networks. It enforces signed scope locally and sends results back over outbound mTLS.</p>
-            <pre>Management → Appliances → Add Scout
-Copy the generated one-time command
-Wait for status: <span class="ok">connected</span></pre>
-          </div>
-          <div class="step">
-            <span class="step-label">optional / Relay</span>
-            <h3>Keep scanners on the appliance</h3>
-            <p class="step-copy">Enable VulnaRelay when the remote endpoint should provide only a WireGuard egress path. Organization opt-in, approved IPv4 scope, kill switches, and central egress controls remain explicit.</p>
-            <pre>Management → Appliances → Relay
-Enable organization Relay mode
-Generate the one-time install command</pre>
+            <div class="console-body">
+              <div class="scan-top">
+                <div>
+                  <p class="scan-label">Apopka branch · local-scout</p>
+                  <p class="scan-title">Standard security assessment</p>
+                </div>
+                <strong class="scan-percent">68%</strong>
+              </div>
+              <div class="progress"><i></i></div>
+              <div class="stages">
+                <div class="stage done"><span class="stage-icon">✓</span><span>Discovery</span><span class="stage-status">37 hosts</span></div>
+                <div class="stage active"><span class="stage-icon">02</span><span>Vulnerability</span><span class="stage-status">running</span></div>
+                <div class="stage"><span class="stage-icon">03</span><span>TLS analysis</span><span class="stage-status">queued</span></div>
+              </div>
+              <div class="scan-metrics">
+                <div class="metric"><strong>1,280</strong><span>addresses scoped</span></div>
+                <div class="metric"><strong>37</strong><span>live assets</span></div>
+                <div class="metric"><strong>12</strong><span>findings so far</span></div>
+              </div>
+            </div>
+            <div class="console-foot"><span>Evidence retained locally</span><span>mTLS · signed job</span></div>
           </div>
         </div>
-
-        <p class="drench-foot">Use the <a href="https://github.com/codebooker/vulna/blob/main/docs/quickstart.md">complete quickstart</a> for the safe first-scan flow and the <a href="https://github.com/codebooker/vulna/blob/main/docs/installation/README.md">installation guide</a> for signed releases, preflight, automation, and offline options.</p>
       </div>
     </section>
-  </div>
 
-  <!-- ================= Open source ================= -->
-  <section id="opensource">
-    <div class="wrap oss">
-      <div class="oss-content">
-        <div class="sec-head">
-          <h2>Open source, the whole stack.</h2>
-          <p>Vulna is AGPL-3.0 and developed in the open on GitHub. There is no vendor control plane, paid tier, or open-core feature gate. Findings, evidence, credentials, and keys stay on your infrastructure unless you deliberately configure an external identity, notification, ticketing, or inventory integration.</p>
-          <p style="margin-top: 1.25rem;">Bug reports, pull requests, and "it broke on my weird hardware" issues are all welcome. Good first issues are labeled.</p>
-          <div class="hero-actions" style="margin-top: 2rem;">
-            <a class="btn btn-primary" href="https://github.com/codebooker/vulna">Star the repo</a>
-            <a class="btn btn-ghost" href="https://github.com/codebooker/vulna/blob/main/CONTRIBUTING.md">Contributing guide</a>
+    <section class="signal-strip" aria-label="Vulna architecture summary">
+      <div class="signal-row shell">
+        <div class="signal"><strong>One control plane</strong><span>Vulna appliance</span></div>
+        <span class="signal-sep">→</span>
+        <div class="signal"><strong>Three network paths</strong><span>local · Scout · Relay</span></div>
+        <span class="signal-sep">→</span>
+        <div class="signal"><strong>One evidence trail</strong><span>finding to verified fix</span></div>
+      </div>
+    </section>
+
+    <section class="section reach" id="reach">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <div>
+            <span class="eyebrow">Reach every authorized site</span>
+            <h2>Start central. Extend with intent.</h2>
           </div>
+          <p>The appliance already includes a local Scout. Add a remote endpoint only when a location, VLAN, DMZ, or routing boundary needs one. Every job stays signed, scoped, and visible from the same dashboard.</p>
         </div>
-        <div class="notice">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--teal-bright)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span><strong>Authorized use only.</strong> Vulna is for assessing systems and networks you own or have explicit written permission to test. Scope approval, mutual TLS, and audit logging are built in to keep it that way.</span>
+
+        <div class="architecture reveal">
+          <div class="control-plane">
+            <div class="node-mark">V</div>
+            <div class="node-copy"><strong>Vulna appliance</strong><span>Control plane, scanners, evidence, workflow, reporting</span></div>
+            <span class="node-state">online</span>
+          </div>
+          <div class="route-line" aria-hidden="true"></div>
+          <div class="endpoint-grid">
+            <article class="endpoint">
+              <div class="endpoint-top"><span class="endpoint-index">PATH / 01</span><span class="endpoint-tag">built in</span></div>
+              <h3>Local Scout</h3>
+              <p>Scan any approved network the appliance can already route to. Nothing else to install.</p>
+              <div class="endpoint-spec"><span>same host</span><span>fastest start</span><span>central scanners</span></div>
+            </article>
+            <article class="endpoint recommended">
+              <div class="endpoint-top"><span class="endpoint-index">PATH / 02</span><span class="endpoint-tag">recommended remote</span></div>
+              <h3>VulnaScout</h3>
+              <p>Run scanners at the remote site. The edge enforces signed scope and returns evidence over outbound mTLS.</p>
+              <div class="endpoint-spec"><span>Linux</span><span>amd64 / arm64</span><span>edge execution</span></div>
+            </article>
+            <article class="endpoint">
+              <div class="endpoint-top"><span class="endpoint-index">PATH / 03</span><span class="endpoint-tag">advanced</span></div>
+              <h3>VulnaRelay</h3>
+              <p>Keep scanners central and give them a kill-switched WireGuard path into approved remote IPv4 scope.</p>
+              <div class="endpoint-spec"><span>Linux</span><span>WireGuard</span><span>scanner-free edge</span></div>
+            </article>
+          </div>
+          <p class="architecture-note">Native appliance, Scout, and Relay service hosts currently require Linux. Windows and macOS remain supported browser clients and assessment targets.</p>
         </div>
       </div>
-      
-      <dl class="oss-facts">
-        <div class="oss-fact"><dt>License</dt><dd>AGPL-3.0</dd></div>
-        <div class="oss-fact"><dt>Dashboard</dt><dd>Python · FastAPI</dd></div>
-        <div class="oss-fact"><dt>Scout and Relay</dt><dd>Go · stdlib</dd></div>
-        <div class="oss-fact"><dt>Drives</dt><dd>nmap · nuclei · testssl · zap</dd></div>
-        <div class="oss-fact"><dt>Install</dt><dd>vulna CLI / docker compose</dd></div>
-        <div class="oss-fact"><dt>Endpoint hosts</dt><dd>Linux · amd64 · arm64</dd></div>
-        <div class="oss-fact"><dt>Telemetry</dt><dd>optional · off by default</dd></div>
-      </dl>
+    </section>
+
+    <section class="section capabilities" id="platform">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <div>
+            <span class="eyebrow">A complete operating layer</span>
+            <h2>More than a scanner launcher.</h2>
+          </div>
+          <p>Vulna connects scan evidence to the assets, people, decisions, and deadlines around it. The result is a security program you can operate, explain, and improve without handing the control plane to a vendor.</p>
+        </div>
+
+        <div class="bento">
+          <article class="panel panel-main reveal">
+            <div class="panel-copy">
+              <span class="panel-label">Assessment + inventory</span>
+              <h3>See the network as assets, services, software, and change.</h3>
+              <p>Orchestrate nmap, Nuclei, testssl.sh, and OWASP ZAP. Correlate the results with active and passive inventory instead of leaving raw output in disconnected files.</p>
+            </div>
+            <div class="asset-table">
+              <div class="asset-row header"><span>Asset</span><span>Service</span><span>Owner</span><span>State</span></div>
+              <div class="asset-row"><span class="asset-host"><strong>edge-fw-01</strong><span>10.1.60.1</span></span><span>HTTPS · SSH</span><span>Infrastructure</span><span class="severity high">high</span></div>
+              <div class="asset-row"><span class="asset-host"><strong>fileserver-apk</strong><span>10.1.60.24</span></span><span>SMB · WinRM</span><span>Operations</span><span class="severity medium">medium</span></div>
+              <div class="asset-row"><span class="asset-host"><strong>switch-core-02</strong><span>10.1.60.8</span></span><span>HTTPS · SNMP</span><span>Network</span><span class="severity clear">reviewed</span></div>
+              <div class="asset-row"><span class="asset-host"><strong>camera-gw</strong><span>10.1.70.12</span></span><span>HTTPS</span><span>Facilities</span><span class="severity medium">medium</span></div>
+            </div>
+          </article>
+
+          <article class="panel panel-risk reveal">
+            <div class="panel-copy">
+              <span class="panel-label">Explainable risk</span>
+              <h3>A score with receipts.</h3>
+              <p>Versioned factors preserve the inputs and contributions behind every priority.</p>
+            </div>
+            <div class="risk-orbit"><div class="risk-score"><strong>8.4</strong><span>priority score</span></div></div>
+            <div class="factor-list">
+              <div class="factor"><span>Exploit likelihood</span><span class="factor-bar"><i class="factor-82"></i></span></div>
+              <div class="factor"><span>Known exploitation</span><span class="factor-bar"><i class="factor-100"></i></span></div>
+              <div class="factor"><span>Asset context</span><span class="factor-bar"><i class="factor-64"></i></span></div>
+            </div>
+          </article>
+
+          <div class="panel panel-row reveal">
+            <article class="mini-panel">
+              <span class="panel-label">Remediation</span>
+              <h3>Move findings into owned work.</h3>
+              <div class="mini-stat">04<small>units due this week</small></div>
+            </article>
+            <article class="mini-panel">
+              <span class="panel-label">Reporting</span>
+              <h3>One dataset. Every audience.</h3>
+              <div class="report-stack" aria-hidden="true"><i class="report-sheet"></i><i class="report-sheet"></i><i class="report-sheet"></i></div>
+            </article>
+            <article class="mini-panel">
+              <span class="panel-label">Access + audit</span>
+              <h3>Power without ambiguity.</h3>
+              <div class="identity-list"><span>RBAC</span><span>MFA</span><span>WebAuthn</span><span>OIDC</span><span>SAML</span><span>SCIM</span><span>audit</span></div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section workflow" id="workflow">
+      <div class="shell">
+        <div class="workflow-head reveal">
+          <div>
+            <span class="eyebrow">One durable workflow</span>
+            <h2>From address range to verified fix.</h2>
+          </div>
+          <p>Scope is approved before execution. Evidence arrives as the scan runs. Findings stay connected to context, decisions, tickets, and the verification that closes them.</p>
+        </div>
+        <div class="workflow-grid reveal">
+          <article class="workflow-step"><span class="step-number">01 / SCOPE</span><h3>Authorize</h3><p>Define owned ranges, select a preset, and issue a signed job that the Scout validates locally.</p></article>
+          <article class="workflow-step"><span class="step-number">02 / ASSESS</span><h3>Observe</h3><p>Run bounded discovery, vulnerability, TLS, web, or explicitly gated pentest stages.</p></article>
+          <article class="workflow-step"><span class="step-number">03 / EXPLAIN</span><h3>Prioritize</h3><p>Combine scanner evidence, CVE intelligence, exploit signals, and asset context.</p></article>
+          <article class="workflow-step"><span class="step-number">04 / ACT</span><h3>Remediate</h3><p>Assign owners, apply SLAs, sync tickets, record decisions, and retain the audit trail.</p></article>
+          <article class="workflow-step"><span class="step-number">05 / PROVE</span><h3>Verify</h3><p>Run a targeted check against the exact affected surface and preserve the outcome.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="principles">
+      <div class="shell trust-grid">
+        <div class="trust-copy reveal">
+          <span class="eyebrow">Built to be inspectable</span>
+          <h2>Your security tool should answer to you.</h2>
+          <p>No mystery control plane. No feature ransom. No quiet expansion beyond approved scope. Vulna is designed for operators who want to see how the system works and keep the data close.</p>
+          <div class="hero-actions">
+            <a class="button button-secondary" href="https://github.com/codebooker/vulna/blob/main/docs/architecture.md">Read the architecture <span class="arrow">↗</span></a>
+          </div>
+        </div>
+        <div class="trust-list reveal">
+          <div class="trust-item"><span class="trust-check">✓</span><div><strong>The whole stack is open source</strong><span>AGPL-3.0, developed in public, with no paid tier or open-core feature gate.</span></div></div>
+          <div class="trust-item"><span class="trust-check">✓</span><div><strong>Local by default</strong><span>Findings, evidence, credentials, and keys stay on your infrastructure unless you deliberately configure an external integration.</span></div></div>
+          <div class="trust-item"><span class="trust-check">✓</span><div><strong>Scope is a control, not a suggestion</strong><span>Signed jobs, edge validation, mutual TLS, Relay kill switches, and audit history keep authorization explicit.</span></div></div>
+          <div class="trust-item"><span class="trust-check">✓</span><div><strong>Operations are reversible</strong><span>Backup, restore, update, rollback, health checks, portability, and offline workflows are first-class product work.</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quickstart" id="quickstart">
+      <div class="shell quick-card reveal">
+        <div class="quick-inner">
+          <div class="quick-copy">
+            <span class="pre-release">CURRENT PATH · SOURCE CHECKOUT</span>
+            <h2>Bring up the control plane.</h2>
+            <p>Vulna is still pre-1.0. Evaluate the current code from a trusted checkout, configure the required secrets, and begin with a small private scope.</p>
+            <p class="quick-note">Prefer the complete <a href="https://github.com/codebooker/vulna/blob/main/docs/quickstart.md">safe first-scan guide</a>. Signed release installers will become the primary path after the first release.</p>
+          </div>
+          <div>
+            <div class="terminal">
+              <div class="terminal-bar"><span>vulna / bootstrap</span><button class="copy-button" type="button" data-copy="git clone https://github.com/codebooker/vulna.git&#10;cd vulna&#10;cp .env.example .env&#10;docker compose -f docker-compose.yml -f docker-compose.single-host.yml up -d --build">copy</button></div>
+              <pre><span class="prompt">$</span> git clone https://github.com/codebooker/vulna.git
+<span class="prompt">$</span> cd vulna
+<span class="prompt">$</span> cp .env.example .env
+<span class="comment"># review .env and set required secrets</span>
+<span class="prompt">$</span> docker compose -f docker-compose.yml \
+    -f docker-compose.single-host.yml up -d --build</pre>
+            </div>
+            <div class="next-steps">
+              <div class="next-step"><strong>01</strong>Finish guided setup</div>
+              <div class="next-step"><strong>02</strong>Approve private scope</div>
+              <div class="next-step"><strong>03</strong>Run a safe preset</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="shell final-grid reveal">
+        <div>
+          <h2>Security operations without surrendering the operation.</h2>
+          <p>Read the code, run it on your network, break it on weird hardware, and help make it better.</p>
+        </div>
+        <div class="final-actions">
+          <a class="button button-primary" href="https://github.com/codebooker/vulna">Star Vulna on GitHub <span class="arrow">↗</span></a>
+          <a class="button button-secondary" href="https://github.com/codebooker/vulna/blob/main/CONTRIBUTING.md">Contribute <span class="arrow">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-grid">
+      <div class="footer-brand">
+        <img src="vulna-mark.png" alt="">
+        <div><strong>Vulna</strong><span>Built in the open. Runs on your network.</span></div>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="https://github.com/codebooker/vulna">GitHub</a>
+        <a href="https://github.com/codebooker/vulna/tree/main/docs">Documentation</a>
+        <a href="https://github.com/codebooker/vulna/releases">Releases</a>
+        <a href="https://github.com/codebooker/vulna/issues">Issues</a>
+      </nav>
+      <p class="legal">Authorized use only. Assess only systems and networks you own or have explicit written permission to test.</p>
     </div>
-  </section>
-</main>
+  </footer>
 
-<footer>
-  <div class="wrap foot">
-    <a class="brand" href="#" aria-label="Vulna home">
-      <svg width="22" height="20" viewBox="0 0 142 134" fill="none" aria-hidden="true">
-        <rect x="0"  y="52" width="9"  height="9" fill="#006666"/>
-        <rect x="14" y="38" width="7"  height="7" fill="#00A3A3"/>
-        <rect x="10" y="66" width="12" height="8" fill="#013B3B"/>
-        <rect x="26" y="54" width="8"  height="8" fill="#00A3A3"/>
-        <rect x="22" y="24" width="6"  height="6" fill="#006666"/>
-        <rect x="30" y="80" width="10" height="7" fill="#00A3A3"/>
-        <rect x="18" y="92" width="7"  height="7" fill="#006666"/>
-        <rect x="34" y="38" width="9"  height="9" fill="#013B3B"/>
-        <rect x="40" y="64" width="8"  height="8" fill="#006666"/>
-        <rect x="44" y="88" width="7"  height="7" fill="#00A3A3"/>
-        <rect x="36" y="16" width="7"  height="7" fill="#00A3A3"/>
-        <rect x="2"  y="30" width="10" height="4" fill="#00A3A3"/>
-        <rect x="6"  y="82" width="14" height="4" fill="#006666"/>
-        <g transform="translate(46,0)">
-          <path d="M42 0 L0 16 L0 58 C0 92 20 114 42 124 L42 0 Z" fill="#013B3B"/>
-          <path d="M42 0 L84 16 L84 58 C84 92 64 114 42 124 L42 0 Z" fill="#008080"/>
-          <path d="M14 34 L34 34 L42 62 L50 34 L70 34 L50 96 L34 96 Z" fill="#FFFFFF"/>
-          <path d="M42 62 L50 34 L70 34 L50 96 L42 96 Z" fill="#013B3B" opacity="0.28"/>
-        </g>
-      </svg>
-      Vulna
-    </a>
-    <span>Built in the open. Runs on your network.</span>
-    <div class="foot-links">
-      <a href="https://github.com/codebooker/vulna">GitHub</a>
-      <a href="https://github.com/codebooker/vulna/tree/main/docs">Docs</a>
-      <a href="https://github.com/codebooker/vulna/releases">Releases</a>
-    </div>
-    <p class="foot-legal">Authorized use only. Assess only systems you own or are explicitly permitted to test.</p>
-  </div>
-</footer>
+  <script>
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
 
-<script>
-  const canvas = document.getElementById('hero-canvas');
-  const ctx = canvas.getContext('2d');
-  
-  let width, height;
-  let particles = [];
-  let mouse = { x: null, y: null };
-  let isHovering = false;
-  let animationFrame = null;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  
-  function resize() {
-    width = canvas.width = window.innerWidth;
-    const hero = document.querySelector('.hero-wrapper');
-    height = canvas.height = hero.offsetHeight || window.innerHeight;
-    if (reduceMotion.matches && particles.length) drawFrame();
-  }
-  
-  window.addEventListener('resize', resize);
-  
-  const heroWrapper = document.querySelector('.hero-wrapper');
-  heroWrapper.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
-    isHovering = true;
-  });
-  
-  heroWrapper.addEventListener('mouseleave', () => {
-    isHovering = false;
-  });
-  
-  class Particle {
-    constructor() {
-      // Create a swirling sphere distribution
-      this.radius = Math.random() * 300 + 120;
-      this.theta = Math.random() * Math.PI * 2; // azimuthal angle
-      // Bias polar angle towards the equator for a ring-like feel
-      this.phi = Math.acos((Math.random() - 0.5) * 1.5); 
-      
-      this.speed = (Math.random() * 0.0015 + 0.0005) * (Math.random() > 0.5 ? 1 : -1);
-      this.size = Math.random() * 1.5 + 0.5;
-      
-      // Vulna brand colors
-      const colors = ['rgba(0, 102, 102, 0.8)', 'rgba(45, 212, 191, 0.8)', 'rgba(0, 163, 163, 0.8)', 'rgba(1, 59, 59, 0.6)'];
-      this.color = colors[Math.floor(Math.random() * colors.length)];
-      
-      this.x = 0;
-      this.y = 0;
-      this.vx = 0;
-      this.vy = 0;
-    }
-    
-    update() {
-      // Slowly rotate around Y axis
-      this.theta += this.speed;
-      
-      // 3D coordinates
-      let x3d = this.radius * Math.sin(this.phi) * Math.cos(this.theta);
-      let y3d = this.radius * Math.cos(this.phi); // Y is up/down in 3D
-      let z3d = this.radius * Math.sin(this.phi) * Math.sin(this.theta);
-      
-      // Tilt the ring (rotate around X axis)
-      let tilt = 0.8; 
-      let y3dTilted = y3d * Math.cos(tilt) - z3d * Math.sin(tilt);
-      let z3dTilted = y3d * Math.sin(tilt) + z3d * Math.cos(tilt);
-      
-      // Perspective projection
-      let focalLength = 600;
-      let scale = focalLength / (focalLength + z3dTilted);
-      
-      // Move system origin towards the right to balance the asymmetric layout
-      let centerX = width > 768 ? width * 0.7 : width / 2;
-      let centerY = height / 2;
-      
-      let targetX = centerX + x3d * scale;
-      let targetY = centerY + y3dTilted * scale;
-      
-      // Mouse repulsion (rippling effect)
-      let dx = mouse.x - targetX;
-      let dy = mouse.y - targetY;
-      let distance = Math.sqrt(dx * dx + dy * dy);
-      let repelRadius = 200;
-      
-      if (isHovering && distance < repelRadius) {
-        let force = Math.pow((repelRadius - distance) / repelRadius, 2);
-        let angle = Math.atan2(dy, dx);
-        targetX -= Math.cos(angle) * force * 60;
-        targetY -= Math.sin(angle) * force * 60;
-      }
-      
-      // Smooth pursuit for that trailing dash look
-      this.vx = (targetX - this.x) * 0.12;
-      this.vy = (targetY - this.y) * 0.12;
-      
-      // Initialize position on first frame to avoid a massive fly-in
-      if (this.x === 0 && this.y === 0) {
-        this.x = targetX;
-        this.y = targetY;
-      } else {
-        this.x += this.vx;
-        this.y += this.vy;
-      }
-      
-      this.currentScale = scale;
-    }
-    
-    draw() {
-      if (this.currentScale < 0) return;
-      
-      // Dash length depends on velocity, making moving pieces stretch
-      let speedSq = this.vx * this.vx + this.vy * this.vy;
-      let length = Math.min(speedSq * 0.6 + 2, 15) * this.currentScale;
-      let angle = Math.atan2(this.vy, this.vx);
-      
-      ctx.save();
-      ctx.translate(this.x, this.y);
-      ctx.rotate(angle);
-      ctx.beginPath();
-      ctx.moveTo(-length/2, 0);
-      ctx.lineTo(length/2, 0);
-      ctx.strokeStyle = this.color;
-      ctx.lineWidth = this.size * this.currentScale;
-      ctx.lineCap = 'round';
-      ctx.stroke();
-      ctx.restore();
-    }
-  }
-  
-  function init() {
-    resize();
-    particles = [];
-    let numParticles = window.innerWidth > 768 ? 700 : 300;
-    for (let i = 0; i < numParticles; i++) {
-      particles.push(new Particle());
-    }
-  }
-  
-  function drawFrame() {
-    ctx.clearRect(0, 0, width, height);
-    for (let i = 0; i < particles.length; i++) {
-      particles[i].update();
-      particles[i].draw();
-    }
-  }
-
-  function animate() {
-    drawFrame();
-    animationFrame = reduceMotion.matches ? null : requestAnimationFrame(animate);
-  }
-
-  function applyMotionPreference() {
-    if (animationFrame !== null) cancelAnimationFrame(animationFrame);
-    animationFrame = null;
-    animate();
-  }
-  
-  init();
-  applyMotionPreference();
-  reduceMotion.addEventListener?.('change', applyMotionPreference);
-</script>
-
-<script>
-  document.querySelectorAll('.copy-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const text = btn.getAttribute('data-copy');
-      if (text) {
-        navigator.clipboard.writeText(text).then(() => {
-          btn.classList.add('copied');
-          btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-          setTimeout(() => {
-            btn.classList.remove('copied');
-            btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-          }, 2000);
-        });
-      }
+    navToggle.addEventListener('click', () => {
+      const open = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!open));
+      navToggle.setAttribute('aria-label', open ? 'Open navigation' : 'Close navigation');
+      navLinks.classList.toggle('open', !open);
     });
-  });
-</script>
 
+    navLinks.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.setAttribute('aria-label', 'Open navigation');
+      });
+    });
+
+    const copyButton = document.querySelector('.copy-button');
+    copyButton.addEventListener('click', async () => {
+      const original = copyButton.textContent;
+      try {
+        await navigator.clipboard.writeText(copyButton.dataset.copy);
+        copyButton.textContent = 'copied';
+      } catch {
+        copyButton.textContent = 'select text';
+      }
+      window.setTimeout(() => { copyButton.textContent = original; }, 1800);
+    });
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reveals = document.querySelectorAll('.reveal');
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+      reveals.forEach((item) => item.classList.add('visible'));
+    } else {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      reveals.forEach((item) => observer.observe(item));
+    }
+  </script>
 </body>
 </html>
