@@ -271,12 +271,19 @@
     .panel p { max-width: 34rem; margin: .9rem 0 0; color: var(--muted); font-size: .93rem; }
     .panel-main { min-height: 31rem; }
     .asset-table { margin: 1.2rem clamp(1.5rem, 3vw, 2.3rem) 2rem; border: 1px solid var(--line); border-radius: .85rem; overflow: hidden; }
-    .asset-row { display: grid; grid-template-columns: 1.15fr .75fr .6fr auto; gap: .8rem; align-items: center; min-height: 3.4rem; padding: .7rem .9rem; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: .67rem; }
-    .asset-row:last-child { border-bottom: 0; }
-    .asset-row.header { min-height: 2.55rem; background: rgba(255,255,255,.025); color: var(--muted); text-transform: uppercase; font-size: .58rem; }
+    .asset-table table { width: 100%; border-collapse: collapse; table-layout: fixed; font-family: var(--mono); }
+    .asset-table th, .asset-table td { padding: .85rem 1rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+    .asset-table th { background: rgba(255,255,255,.025); color: var(--muted); font-size: .65rem; font-weight: 400; letter-spacing: .04em; text-transform: uppercase; }
+    .asset-table td { font-size: .72rem; line-height: 1.35; }
+    .asset-table th:nth-child(1) { width: 39%; }
+    .asset-table th:nth-child(2) { width: 24%; }
+    .asset-table th:nth-child(3) { width: 23%; }
+    .asset-table th:nth-child(4) { width: 14%; }
+    .asset-table th:last-child, .asset-table td:last-child { text-align: right; }
+    .asset-table tbody tr:last-child td { border-bottom: 0; }
     .asset-host strong { display: block; color: var(--paper); font-weight: 500; }
-    .asset-host span { color: var(--muted); }
-    .severity { justify-self: end; padding: .24rem .42rem; border-radius: .3rem; }
+    .asset-host span { display: block; margin-top: .18rem; color: var(--muted); }
+    .severity { display: inline-block; padding: .28rem .48rem; border-radius: .3rem; }
     .severity.high { background: rgba(238,128,109,.13); color: var(--coral); }
     .severity.medium { background: rgba(240,185,90,.12); color: var(--amber); }
     .severity.clear { background: rgba(24,183,160,.11); color: var(--teal); }
@@ -427,8 +434,11 @@
       .signal-sep { transform: rotate(90deg); }
       .control-plane { grid-template-columns: auto 1fr; }
       .node-state { grid-column: 2; }
-      .asset-row { grid-template-columns: 1fr auto; }
-      .asset-row > :nth-child(2), .asset-row > :nth-child(3) { display: none; }
+      .asset-table th, .asset-table td { padding: .8rem; }
+      .asset-table th:first-child { width: auto; }
+      .asset-table th:last-child { width: 6.25rem; }
+      .asset-table th:nth-child(2), .asset-table td:nth-child(2),
+      .asset-table th:nth-child(3), .asset-table td:nth-child(3) { display: none; }
       .panel-row { grid-template-columns: 1fr; }
       .mini-panel { border-right: 0; border-bottom: 1px solid var(--line); }
       .mini-panel:last-child { grid-column: auto; border-bottom: 0; border-top: 0; }
@@ -594,11 +604,16 @@
               <p>Orchestrate nmap, Nuclei, testssl.sh, and OWASP ZAP. Correlate the results with active and passive inventory instead of leaving raw output in disconnected files.</p>
             </div>
             <div class="asset-table">
-              <div class="asset-row header"><span>Asset</span><span>Service</span><span>Owner</span><span>State</span></div>
-              <div class="asset-row"><span class="asset-host"><strong>edge-fw-01</strong><span>10.1.60.1</span></span><span>HTTPS · SSH</span><span>Infrastructure</span><span class="severity high">high</span></div>
-              <div class="asset-row"><span class="asset-host"><strong>fileserver-apk</strong><span>10.1.60.24</span></span><span>SMB · WinRM</span><span>Operations</span><span class="severity medium">medium</span></div>
-              <div class="asset-row"><span class="asset-host"><strong>switch-core-02</strong><span>10.1.60.8</span></span><span>HTTPS · SNMP</span><span>Network</span><span class="severity clear">reviewed</span></div>
-              <div class="asset-row"><span class="asset-host"><strong>camera-gw</strong><span>10.1.70.12</span></span><span>HTTPS</span><span>Facilities</span><span class="severity medium">medium</span></div>
+              <table>
+                <caption class="sr-only">Example asset inventory</caption>
+                <thead><tr><th scope="col">Asset</th><th scope="col">Service</th><th scope="col">Owner</th><th scope="col">State</th></tr></thead>
+                <tbody>
+                  <tr><td class="asset-host"><strong>perimeter-fw-01</strong><span>192.0.2.1</span></td><td>HTTPS · SSH</td><td>Infrastructure</td><td><span class="severity high">high</span></td></tr>
+                  <tr><td class="asset-host"><strong>file-server-01</strong><span>192.0.2.24</span></td><td>SMB · WinRM</td><td>Operations</td><td><span class="severity medium">medium</span></td></tr>
+                  <tr><td class="asset-host"><strong>core-switch-01</strong><span>198.51.100.8</span></td><td>HTTPS · SNMP</td><td>Network</td><td><span class="severity clear">reviewed</span></td></tr>
+                  <tr><td class="asset-host"><strong>camera-gateway-01</strong><span>203.0.113.12</span></td><td>HTTPS</td><td>Facilities</td><td><span class="severity medium">medium</span></td></tr>
+                </tbody>
+              </table>
             </div>
           </article>
 
